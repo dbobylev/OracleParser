@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OracleParser", "OracleParser\OracleParser.csproj", "{CA9326EB-4A1C-4201-B7D4-7A4B5917A37E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OracleParser.Tests", "OracleParser.Tests\OracleParser.Tests.csproj", "{DC002F5D-A270-4497-B36F-BB9152717C67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseRepository", "DataBaseRepository\DataBaseRepository.csproj", "{0A6F8016-EA41-4DA6-92BC-DBFF5E37760E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntlrOraclePlsql", "AntlrOraclePlsql\AntlrOraclePlsql\AntlrOraclePlsql.csproj", "{A0BE5B08-8BEF-4FE0-B9C2-3E64FE83B5C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA9326EB-4A1C-4201-B7D4-7A4B5917A37E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA9326EB-4A1C-4201-B7D4-7A4B5917A37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA9326EB-4A1C-4201-B7D4-7A4B5917A37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA9326EB-4A1C-4201-B7D4-7A4B5917A37E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC002F5D-A270-4497-B36F-BB9152717C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC002F5D-A270-4497-B36F-BB9152717C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC002F5D-A270-4497-B36F-BB9152717C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC002F5D-A270-4497-B36F-BB9152717C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6F8016-EA41-4DA6-92BC-DBFF5E37760E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6F8016-EA41-4DA6-92BC-DBFF5E37760E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6F8016-EA41-4DA6-92BC-DBFF5E37760E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6F8016-EA41-4DA6-92BC-DBFF5E37760E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0BE5B08-8BEF-4FE0-B9C2-3E64FE83B5C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0BE5B08-8BEF-4FE0-B9C2-3E64FE83B5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0BE5B08-8BEF-4FE0-B9C2-3E64FE83B5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0BE5B08-8BEF-4FE0-B9C2-3E64FE83B5C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCA1681B-756E-4EB9-9498-01BF65039C92}
+	EndGlobalSection
+EndGlobal

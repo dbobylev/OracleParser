@@ -1,0 +1,4 @@
+[submodule "AntlrOraclePlsql"]
+	path = AntlrOraclePlsql
+	url = https://github.com/dbobylev/AntlrOraclePlsql
+	branch = master
