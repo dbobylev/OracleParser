@@ -8,6 +8,15 @@ namespace OracleParser.Tests.MockRepository
     {
         public const string Spec =
 @"CREATE OR REPLACE PACKAGE c_package AS 
+
+   type shit is record(a number);
+   lol kk.shit;
+   type shitt is table of shit index by pls_integer;
+   varib varchar2(220);
+
+   cursor cur is select * from dual;
+   vur2 sys_refcursor;
+
    -- Adds a customer 
    PROCEDURE addCustomer(c_id   customers.ider%type, 
    c_name  customerS.No.ame%type, 

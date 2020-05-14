@@ -12,7 +12,15 @@ namespace DataBaseRepository.Model
         public string Name { get; private set; }
         public eRepositoryObjectType DbObjectType;
 
-        public string RepFilePath { get => Path.Combine(Owner, $"{Owner}.{Name}.{Helper.FileExtensions[DbObjectType]}"); }
+        public string RepFilePath 
+        {
+            get
+            {
+                if (!Helper.FileExtensions.Keys.Contains(DbObjectType))
+                    throw new NotImplementedException("Wrong dbObjectFileType");
+                return Path.Combine(Owner, $"{Owner}.{Name}.{Helper.FileExtensions[DbObjectType]}");
+            }
+        }
 
         public RepositoryObject(string name, string owner, eRepositoryObjectType dbObjectType)
         {

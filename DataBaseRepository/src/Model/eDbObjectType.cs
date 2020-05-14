@@ -6,6 +6,7 @@ namespace DataBaseRepository.Model
 {
     public enum eRepositoryObjectType
     {
+        None,
         Package,
         Package_Spec,
         Package_Body,

@@ -4,6 +4,10 @@ using OracleParser.Model;
 using AntlrOraclePlsql;
 using Antlr4.Runtime.Tree;
 using OracleParser.Visitors;
+using DataBaseRepository.Model;
+using System;
+using DataBaseRepository;
+using System.IO;
 
 namespace OracleParser
 {
@@ -24,12 +28,30 @@ namespace OracleParser
             Seri.Log.Information("Hello, world! Serilog loaded!");
         }
 
-        public PackageBody GetPackageBody(string filePath)
+        public PackagePart GetPackageBody(string filePath)
         {
             IParseTree tree = Analyzer.RunUpperCase(filePath);
             PackageBodyVisitor visitor = new PackageBodyVisitor();
-            PackageBody packageBody = visitor.Visit(tree);
+            PackagePart packageBody = visitor.Visit(tree);
             return packageBody;
+        }
+
+        public Package GetPackage(RepositoryPackage repPackage)
+        {
+            Func<string, PackagePart> GetPart = (x) =>
+            {
+                var path = Path.Combine(DBRep.Instance().RepositoryPath, x);
+                var visitor = new PackageBodyVisitor();
+                var tree = Analyzer.RunUpperCase(path);
+                var packagePart = visitor.Visit(tree);
+                return packagePart;
+            };
+
+            var spec = GetPart(repPackage.SpecRepFilePath);
+            var body = GetPart(repPackage.BodyRepFilePath);
+            var package = new Package(spec, body);
+
+            return package;
         }
     }
 }

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AntlrOraclePlsql\AntlrOraclePlsql\AntlrOraclePlsql.csproj" />
+    <ProjectReference Include="..\DataBaseRepository\DataBaseRepository.csproj" />
   </ItemGroup>
 
   <ItemGroup>

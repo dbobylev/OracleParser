@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using AntlrOraclePlsql;
 using System.Linq;
+using Antlr4.Runtime;
+using OracleParser.Model;
 
 namespace OracleParser.src.Visitors
 {
@@ -17,6 +19,12 @@ namespace OracleParser.src.Visitors
             element.SetPosition(Id_expressionContexts.First());
             element.SetPosition(Id_expressionContexts.Last());
             return element;
+        }
+
+        public static T SetPositionExt<T>(this T source, ParserRuleContext context) where T : PieceOfCode
+        {
+            source.SetPosition(context);
+            return source;
         }
     }
 }
