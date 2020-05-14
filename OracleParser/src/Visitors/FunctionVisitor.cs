@@ -2,8 +2,10 @@
 using Antlr4.Runtime.Tree;
 using AntlrOraclePlsql;
 using OracleParser.Model;
+using OracleParser.src.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OracleParser.Visitors
@@ -37,6 +39,17 @@ namespace OracleParser.Visitors
             var parameter = _parameterVisitor.Visit(context).SetPositionExt(context);
             _Result.AddParametr(parameter);
             return base.VisitParameter(context);
+        }
+
+        public override Function VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
+        {
+            PlSqlParser.Id_expressionContext[] Id_expressionContexts = context.id_expression();
+            string elementName = string.Join(".", Id_expressionContexts.Select(x => x.GetText()));
+            Element element = new Element(elementName);
+            element.SetPosition(Id_expressionContexts.First());
+            element.SetPosition(Id_expressionContexts.Last());
+            _Result.AddElement(element);
+            return base.VisitGeneral_element_part(context);
         }
     }
 }

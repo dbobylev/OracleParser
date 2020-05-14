@@ -17,7 +17,7 @@ namespace OracleParser.Tests
 		[Test]
 		public static void PrintRulesofFile()
 		{
-			ParserRuleContext context =  Analyzer.Run(SourceFiles.pathPackageTest);
+			ParserRuleContext context =  Analyzer.RunUpperCase(SourceFiles.pathPackageTest);
 			PrintChilds(context);
 			Assert.Pass();
 		}
@@ -53,7 +53,7 @@ namespace OracleParser.Tests
 
 			for (int i = 0; i < c; i++)
 			{
-				PrintChilds(tree.GetChild(i), indent + 1);
+				PrintChilds(tree.GetChild(i), indent + 2);
 			}
 		}
 	}

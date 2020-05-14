@@ -12,14 +12,25 @@ END OUT_SCREEN;
 
 FUNCTION MIN_TWO_NUM(A IN FFF.ZZZ, B IN GRO.FFF.ZZZ) RETURN NUMBER
 IS
+  g numner;
 BEGIN
- FFF(B);
+ CMYCONST := 333333;
+ CMYCONST34 := 5555555;
+ LL.CMYCONST35 := 6666666;
+ ll.runproc;
+ g := factorial(4);
+ g5 := ais.magfc.factorial99(489988888888888888888888);
  RETURN (A - B);
 END MIN_TWO_NUM;
 
 FUNCTION ADD_TWO_NUM(A IN NUMBER, B /*ERGREGERG*/       IN NUMBER) RETURN NUMBER
 IS
+q number;
+sup date;
+fff signtype;
+kkk QQQQQQ;
 BEGIN
+select b.q into q from shit b where b.dfdf = sdfsd(b.f44f);
  RETURN (A + B);
 END             ADD_TWO_NUM;
 

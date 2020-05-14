@@ -9,16 +9,16 @@ namespace OracleParser.Tests.MockRepository
         public const string Spec =
 @"CREATE OR REPLACE PACKAGE c_package AS 
    -- Adds a customer 
-   PROCEDURE addCustomer(c_id   customers.id%type, 
+   PROCEDURE addCustomer(c_id   customers.ider%type, 
    c_name  customerS.No.ame%type, 
    c_age  customers.age%type, 
    c_addr customers.address%type,  
    c_sal  customers.salary%type); 
    
    -- Removes a customer 
-   PROCEDURE delCustomer(c_id  customers.id%TYPE); 
+   PROCEDURE delCustomer(c_id  customers.ider%TYPE); 
    --Lists all customers 
-   PROCEDURE listCustomer; 
+   PROCEDURE listCustomer(); 
   
 END c_package; 
 /";

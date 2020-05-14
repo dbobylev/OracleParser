@@ -16,10 +16,13 @@ namespace OracleParser.Model
 
         public void SetPosition(ParserRuleContext parser)
         {
-            LineBeg = parser.Start.Line;
-            LineEnd = parser.Stop.Line;
+            if (LineBeg == 0)
+            {
+                LineBeg = parser.Start.Line;
+                ColumnBeg = parser.Start.Column;
+            }
 
-            ColumnBeg = parser.Start.Column;
+            LineEnd = parser.Stop.Line;
             ColumnEnd = parser.Stop.Column + parser.Stop.StopIndex - parser.Stop.StartIndex;
         }
 

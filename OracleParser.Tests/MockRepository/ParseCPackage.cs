@@ -1,4 +1,5 @@
 ﻿using AntlrOraclePlsql;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using System;
@@ -11,11 +12,25 @@ namespace OracleParser.Tests.MockRepository
     class ParseCPackage
     {
         const string bodyPath = "C:\\TestRep\\ALPHA\\c_package.bdy";
+        const string specPath = "C:\\TestRep\\ALPHA\\c_package.spc";
 
         [Test]
         public static void RunTest()
         {
-            var z = Analyzer.RunUpperCase(bodyPath);
+            var packagebody = OraParser.Instance().GetPackageBody(bodyPath);
+
+            var json = JsonConvert.SerializeObject(packagebody, Formatting.Indented);
+            Console.WriteLine(json);
+
+            Assert.Pass();
+        }
+
+        [Test]
+        public static void PrintSpec()
+        {
+            var x = Analyzer.RunUpperCase(specPath);
+
+            PrintRuleTree.PrintChilds(x);
 
             Assert.Pass();
         }
