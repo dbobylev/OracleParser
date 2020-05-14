@@ -11,8 +11,8 @@ namespace OracleParser.Tests.MockRepository
 {
     class ParseCPackage
     {
-        const string bodyPath = "C:\\TestRep\\ALPHA\\c_package.bdy";
-        const string specPath = "C:\\TestRep\\ALPHA\\c_package.spc";
+        const string bodyPath = "C:\\TestRep\\ALPHA\\alpha.c_package.bdy";
+        const string specPath = "C:\\TestRep\\ALPHA\\alpha.c_package.spc";
 
         [Test]
         public static void RunTest()

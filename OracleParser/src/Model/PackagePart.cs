@@ -11,8 +11,8 @@ namespace OracleParser.Model
         private List<Procedure> _procedures;
         private List<Variable> _variables;
 
-        public IReadOnlyCollection<Procedure> Procedures { get => _procedures.AsReadOnly(); }
-        public IReadOnlyCollection<Variable> Variables { get => _variables.AsReadOnly(); }
+        public IReadOnlyList<Procedure> Procedures { get => _procedures.AsReadOnly(); }
+        public IReadOnlyList<Variable> Variables { get => _variables.AsReadOnly(); }
 
         public PackagePart()
         {

@@ -13,6 +13,11 @@ namespace DataBaseRepository.Model
 
         }
 
+        public RepositoryPackage(RepositoryObject obj) : base(obj.Name, obj.Owner, eRepositoryObjectType.Package)
+        {
+
+        }
+
         public string BodyRepFilePath
         {
             get => Path.Combine(Owner, $"{Owner}.{Name}.{Helper.FileExtensions[eRepositoryObjectType.Package_Body]}");
