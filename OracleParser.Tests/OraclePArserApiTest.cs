@@ -12,7 +12,7 @@ namespace OracleParser.Tests
         [Test]
         public static void GetPackageTest()
         {
-            OraParser oracleParser = new OraParser();
+            OraParser oracleParser = OraParser.Instance();
             var packagebody = oracleParser.GetPackageBody(SourceFiles.pathPackageTest);
             var json = JsonConvert.SerializeObject(packagebody, Formatting.Indented);
             Console.WriteLine(json);

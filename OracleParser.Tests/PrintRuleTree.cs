@@ -17,7 +17,7 @@ namespace OracleParser.Tests
 		[Test]
 		public static void PrintRulesofFile()
 		{
-			ParserRuleContext context =  Analyzer.analyze(SourceFiles.pathPackageTest);
+			ParserRuleContext context =  Analyzer.Run(SourceFiles.pathPackageTest);
 			PrintChilds(context);
 			Assert.Pass();
 		}
@@ -25,7 +25,7 @@ namespace OracleParser.Tests
 		[Test]
 		public static void PrintSql12c()
 		{
-			ParserRuleContext context = Analyzer.analyze(SourceFiles.sql21cTest);
+			ParserRuleContext context = Analyzer.Run(SourceFiles.sql21cTest);
 			PrintChilds(context);
 			Assert.Pass();
 		}
@@ -33,7 +33,7 @@ namespace OracleParser.Tests
 		[Test]
 		public static void PrintInvisColumn12c()
 		{
-			ParserRuleContext context = Analyzer.analyze(SourceFiles.InvisColumn12cTest);
+			ParserRuleContext context = Analyzer.Run(SourceFiles.InvisColumn12cTest);
 			PrintChilds(context);
 			Assert.Pass();
 		}

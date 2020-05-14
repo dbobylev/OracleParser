@@ -15,6 +15,8 @@ namespace OracleParser.Tests
         public static void ReadFileLines()
         {
             RepositoryObject obj = new RepositoryObject("text13k", "source", eRepositoryObjectType.Text);
+            DBRep rep = DBRep.Instance();
+            rep.RepositoryPath = AppDomain.CurrentDomain.BaseDirectory;
             string s = DBRep.Instance().GetTextOfFile(obj, 10, 18);
             Console.WriteLine(s);
 

@@ -9,7 +9,15 @@ namespace OracleParser
 {
     public class OraParser
     {
-        public OraParser()
+        private static OraParser _instance;
+        public static OraParser Instance()
+        {
+            if (_instance == null)
+                _instance = new OraParser();
+            return _instance;
+        }
+
+        private OraParser()
         {
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             Seri.InitConfig(configuration);
@@ -18,7 +26,7 @@ namespace OracleParser
 
         public PackageBody GetPackageBody(string filePath)
         {
-            IParseTree tree = Analyzer.analyze(filePath);
+            IParseTree tree = Analyzer.RunUpperCase(filePath);
             PackageBodyVisitor visitor = new PackageBodyVisitor();
             PackageBody packageBody = visitor.Visit(tree);
             return packageBody;
