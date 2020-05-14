@@ -18,7 +18,9 @@ namespace OracleParser.Tests.MockRepository
    -- Removes a customer 
    PROCEDURE delCustomer(c_id  customers.ider%TYPE); 
    --Lists all customers 
-   PROCEDURE listCustomer(); 
+   function sum(a number) return sys_refcursor; 
+
+   PROCEDURE listCustomer; 
   
 END c_package; 
 /";

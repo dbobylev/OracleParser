@@ -3,6 +3,7 @@ using Antlr4.Runtime.Tree;
 using AntlrOraclePlsql;
 using OracleParser.Model;
 using OracleParser.src.Model;
+using OracleParser.src.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +29,12 @@ namespace OracleParser.Visitors
 
         public override Function VisitType_spec([NotNull] PlSqlParser.Type_specContext context)
         {
-            Seri.Log.Verbose($"Visit: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             _Result.SetReturnType(context.GetText());
             return base.VisitType_spec(context);
         }
 
         public override Function VisitParameter([NotNull] PlSqlParser.ParameterContext context)
         {
-            Seri.Log.Verbose($"Visit: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             var parameter = _parameterVisitor.Visit(context).SetPositionExt(context);
             _Result.AddParametr(parameter);
             return base.VisitParameter(context);
@@ -43,12 +42,7 @@ namespace OracleParser.Visitors
 
         public override Function VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
         {
-            PlSqlParser.Id_expressionContext[] Id_expressionContexts = context.id_expression();
-            string elementName = string.Join(".", Id_expressionContexts.Select(x => x.GetText()));
-            Element element = new Element(elementName);
-            element.SetPosition(Id_expressionContexts.First());
-            element.SetPosition(Id_expressionContexts.Last());
-            _Result.AddElement(element);
+            _Result.AddElement(Helper.ReadElement(context));
             return base.VisitGeneral_element_part(context);
         }
     }

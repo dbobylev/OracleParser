@@ -29,7 +29,6 @@ namespace OracleParser.src.Visitors
 
         public override Procedure VisitParameter([NotNull] PlSqlParser.ParameterContext context)
         {
-            Seri.Log.Verbose($"Visit: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             var parameter = _parameterVisitor.Visit(context).SetPositionExt(context);
             _Result.AddParametr(parameter);
             return base.VisitParameter(context);
@@ -37,12 +36,7 @@ namespace OracleParser.src.Visitors
 
         public override Procedure VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
         {
-            PlSqlParser.Id_expressionContext[] Id_expressionContexts = context.id_expression();
-            string elementName = string.Join(".", Id_expressionContexts.Select(x => x.GetText()));
-            Element element = new Element(elementName);
-            element.SetPosition(Id_expressionContexts.First());
-            element.SetPosition(Id_expressionContexts.Last());
-            _Result.AddElement(element);
+            _Result.AddElement(Helper.ReadElement(context));
             return base.VisitGeneral_element_part(context);
         }
     }
