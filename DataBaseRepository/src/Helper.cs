@@ -1,5 +1,4 @@
 ﻿using DataBaseRepository.Model;
-using OracleParser;
 using System;
 using System.Collections.Generic;
 using System.Linq;

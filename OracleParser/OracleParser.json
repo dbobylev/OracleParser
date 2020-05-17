@@ -1,0 +1,30 @@
+{
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.Console" ],
+    "MinimumLevel": "Verbose",
+    "WriteTo": [
+      {
+        "Name": "Debug",
+        "Args": {
+          "outputTemplate": "{Timestamp:HH:mm:ss} {SourceContext} [{Level:u3}] [OracleParser] {Message}{NewLine}{Exception}"
+        }
+      },
+      {
+        "Name": "Console",
+        "Args": {
+          "outputTemplate": "{Timestamp:HH:mm:ss} {SourceContext} [{Level:u3}] [OracleParser] {Message}{NewLine}{Exception}"
+        }
+      },
+      {
+        "Name": "File",
+        "Args": {
+          "path": "log.txt",
+          "rollingInterval": "Day",
+          "retainedFileCountLimit": "1",
+          "outputTemplate": "{Timestamp:HH:mm:ss} {SourceContext} [{Level:u3}] [OracleParser] {Message}{NewLine}{Exception}",
+          "shared": true
+        }
+      }
+    ]
+  }
+}

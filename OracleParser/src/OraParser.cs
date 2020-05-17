@@ -24,9 +24,8 @@ namespace OracleParser
 
         private OraParser()
         {
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            var configuration = new ConfigurationBuilder().AddJsonFile("OracleParser.json").Build();
             Seri.InitConfig(configuration);
-            Seri.Log.Information("Hello, world! Serilog loaded!");
         }
 
         public PackagePart GetPackageBody(string filePath)
@@ -39,6 +38,7 @@ namespace OracleParser
 
         public Package GetPackage(RepositoryPackage repPackage)
         {
+            Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
             Package answer;
 
             Func<string, PackagePart> GetPart = (x) =>
@@ -53,12 +53,13 @@ namespace OracleParser
 
             if (manager.CheckParsedPackage(repPackage, out Package savedParderPackage))
             {
-                Seri.Log.Verbose("CehckedParsed true");
+                Seri.Log.Debug("Пресохраненные данные найдены, возвращаем их");
                 answer = savedParderPackage;
             }
             else
             {
-                Seri.Log.Verbose("CheckedParsed false");
+                Seri.Log.Debug("Сохраненный данные не найдены");
+                Seri.Log.Information($"Запускаем парсинг объекта, repPackage={repPackage}");
 
                 var spec = GetPart(repPackage.SpecRepFullPath);
                 var body = GetPart(repPackage.BodyRepFullPath);

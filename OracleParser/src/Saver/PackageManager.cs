@@ -5,6 +5,7 @@ using OracleParser.Saver;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
@@ -14,11 +15,6 @@ namespace OracleParser.src.Saver
     {
         private const string SAVED_FOLDER = "ParsedPackages";
         private readonly string SAVED_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SAVED_FOLDER);
-
-        private string GetSavedInstancePath(RepositoryPackage package)
-        {
-            return Path.Combine(SAVED_PATH, $"{package.ObjectName}.parsed");
-        }
 
         public void SaveParsedPackage(RepositoryPackage repPackage, Package parsedPackage)
         {
@@ -34,16 +30,29 @@ namespace OracleParser.src.Saver
 
         public bool CheckParsedPackage(RepositoryPackage repPackage, out Package savedParcedPackage)
         {
+            Seri.Log.Verbose($"CheckParsedPackage begin repPackage={repPackage}");
+            bool answer;
             savedParcedPackage = null;
+
             var SavedInstancePath = GetSavedInstancePath(repPackage);
+            Seri.Log.Verbose($"SavedInstancePath={SavedInstancePath}");
             if (!File.Exists(SavedInstancePath))
-                return false;
+                answer = false;
+            else
+            {
+                var currentSha = MD5Utils.RepositoryPackageMD5(repPackage);
+                string fileText = File.ReadAllText(SavedInstancePath);
+                var packageResult = JsonConvert.DeserializeObject<PackageResult>(fileText);
+                savedParcedPackage = packageResult._package;
+                answer = packageResult.SHA == currentSha;
+            }
+            Seri.Log.Verbose($"CheckParsedPackage answer:{answer}");
+            return answer;
+        }
 
-            var currentSha = MD5Utils.RepositoryPackageMD5(repPackage);
-            var packageResult = JsonConvert.DeserializeObject<PackageResult>(File.ReadAllText(SavedInstancePath));
-            savedParcedPackage = packageResult._package;
-
-            return packageResult.SHA == currentSha;
+        private string GetSavedInstancePath(RepositoryPackage package)
+        {
+            return Path.Combine(SAVED_PATH, $"{package.ObjectName}.parsed");
         }
     }
 }

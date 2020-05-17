@@ -1,6 +1,5 @@
 ﻿using DataBaseRepository.Model;
 using Microsoft.Extensions.Configuration;
-using OracleParser;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +24,7 @@ namespace DataBaseRepository
 
         private DBRep()
         { 
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            var configuration = new ConfigurationBuilder().AddJsonFile("DataBaseRepository.json").Build();
             Seri.InitConfig(configuration);
         }
 

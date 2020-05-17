@@ -3,7 +3,7 @@ using Serilog;
 using Serilog.Core;
 using System;
 
-namespace OracleParser
+namespace DataBaseRepository
 {
     class Seri
     {

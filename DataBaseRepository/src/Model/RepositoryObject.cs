@@ -45,5 +45,10 @@ namespace DataBaseRepository.Model
                 .First()
                 .Key;
         }
+
+        public override string ToString()
+        {
+            return ObjectName;
+        }
     }
 }
