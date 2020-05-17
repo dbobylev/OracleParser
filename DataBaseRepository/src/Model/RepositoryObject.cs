@@ -22,6 +22,11 @@ namespace DataBaseRepository.Model
             }
         }
 
+        public string ObjectName
+        {
+            get => $"{Owner}.{Name}";
+        }
+
         public RepositoryObject(string name, string owner, eRepositoryObjectType dbObjectType)
         {
             Name = name.ToUpper();

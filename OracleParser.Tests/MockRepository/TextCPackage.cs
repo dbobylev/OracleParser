@@ -46,6 +46,11 @@ END c_package;
       INSERT INTO customers (id,name,age,address,salary) 
          VALUES(c_id, c_name, c_age, c_addr, c_sal); 
    END addCustomer; 
+
+   function test(a in number, b in number) return varchar2 is
+    begin
+    return '123';
+    end;
    
    PROCEDURE delCustomer(c_id   customers.id%type) IS 
    BEGIN 

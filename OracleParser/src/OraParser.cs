@@ -49,7 +49,8 @@ namespace OracleParser
 
             var spec = GetPart(repPackage.SpecRepFilePath);
             var body = GetPart(repPackage.BodyRepFilePath);
-            var package = new Package(spec, body);
+
+            var package = new Package(repPackage.ObjectName, spec, body);
 
             return package;
         }
