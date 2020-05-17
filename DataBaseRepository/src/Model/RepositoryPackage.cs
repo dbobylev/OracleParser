@@ -27,5 +27,15 @@ namespace DataBaseRepository.Model
         {
             get => Path.Combine(Owner, $"{Owner}.{Name}.{Helper.FileExtensions[eRepositoryObjectType.Package_Spec]}");
         }
+
+        public string BodyRepFullPath
+        {
+            get => Path.Combine(DBRep.Instance().RepositoryPath, BodyRepFilePath);
+        }
+
+        public string SpecRepFullPath
+        {
+            get => Path.Combine(DBRep.Instance().RepositoryPath, SpecRepFilePath);
+        }
     }
 }

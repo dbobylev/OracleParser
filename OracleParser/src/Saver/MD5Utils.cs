@@ -23,8 +23,8 @@ namespace OracleParser.src.Saver
 
         public static string RepositoryPackageMD5(RepositoryPackage package)
         {
-            var sha = CalculateMD5(package.SpecRepFilePath);
-            sha += CalculateMD5(package.BodyRepFilePath);
+            var sha = CalculateMD5(package.SpecRepFullPath);
+            sha += CalculateMD5(package.BodyRepFullPath);
             return sha;
         }
     }

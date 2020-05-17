@@ -8,6 +8,7 @@ using DataBaseRepository.Model;
 using System;
 using DataBaseRepository;
 using System.IO;
+using OracleParser.src.Saver;
 
 namespace OracleParser
 {
@@ -38,21 +39,35 @@ namespace OracleParser
 
         public Package GetPackage(RepositoryPackage repPackage)
         {
+            Package answer;
+
             Func<string, PackagePart> GetPart = (x) =>
             {
-                var path = Path.Combine(DBRep.Instance().RepositoryPath, x);
                 var visitor = new PackageBodyVisitor();
-                var tree = Analyzer.RunUpperCase(path);
+                var tree = Analyzer.RunUpperCase(x);
                 var packagePart = visitor.Visit(tree);
                 return packagePart;
             };
 
-            var spec = GetPart(repPackage.SpecRepFilePath);
-            var body = GetPart(repPackage.BodyRepFilePath);
+            PackageManager manager = new PackageManager();
 
-            var package = new Package(repPackage.ObjectName, spec, body);
+            if (manager.CheckParsedPackage(repPackage, out Package savedParderPackage))
+            {
+                Seri.Log.Verbose("CehckedParsed true");
+                answer = savedParderPackage;
+            }
+            else
+            {
+                Seri.Log.Verbose("CheckedParsed false");
 
-            return package;
+                var spec = GetPart(repPackage.SpecRepFullPath);
+                var body = GetPart(repPackage.BodyRepFullPath);
+
+                answer = new Package(repPackage.ObjectName, spec, body);
+                manager.SaveParsedPackage(repPackage, answer);
+            }
+
+            return answer;
         }
     }
 }
