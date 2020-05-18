@@ -9,7 +9,7 @@ namespace OracleParser.src.Saver
 {
     public static class MD5Utils
     {
-        public static string CalculateMD5(string filename)
+        public static string CalculateMD5path(string filename)
         {
             using (var md5 = MD5.Create())
             {
@@ -21,11 +21,21 @@ namespace OracleParser.src.Saver
             }
         }
 
+        public static string CalculateMD5string(string input)
+        {
+            using(var md5 = MD5.Create())
+            {
+                var inputBytes = Encoding.ASCII.GetBytes(input);
+                var hash = md5.ComputeHash(inputBytes);
+                return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+            }
+        }
+
         public static string RepositoryPackageMD5(RepositoryPackage package)
         {
-            var sha = CalculateMD5(package.SpecRepFullPath);
-            sha += CalculateMD5(package.BodyRepFullPath);
-            return sha;
+            var sha1 = CalculateMD5path(package.SpecRepFullPath);
+            var sha2 = CalculateMD5path(package.BodyRepFullPath);
+            return CalculateMD5string(sha1 + sha2);
         }
     }
 }
