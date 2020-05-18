@@ -36,8 +36,13 @@ namespace DataBaseRepository
 
         public string GetTextOfFile(RepositoryObject file, int LineBeg, int LineEnd)
         {
-            return string.Join("\r\n", File.ReadLines(Path.Combine(RepositoryPath, file.RepFilePath)).Skip(LineBeg - 1).Take(LineEnd - LineBeg));
+            return GetTextOfFile(Path.Combine(RepositoryPath, file.RepFilePath), LineBeg, LineEnd);
         }
+        public string GetTextOfFile(string filepath, int LineBeg, int LineEnd)
+        {
+            return string.Join("\r\n", File.ReadLines(filepath).Skip(LineBeg - 1).Take(LineEnd - LineBeg));
+        }
+
 
         public IEnumerable<string> GetOwners()
         {
