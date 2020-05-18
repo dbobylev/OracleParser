@@ -11,10 +11,10 @@ namespace OracleParser.Tests
         [Test]
         public static void MD5Test()
         {
-            string s1 = MD5Utils.CalculateMD5("C:\\TestRep\\ALPHA\\ALPHA.c_package.bdy");
+            string s1 = MD5Utils.CalculateMD5path("C:\\TestRep\\ALPHA\\ALPHA.c_package.bdy");
             Console.WriteLine(s1);
 
-            string s2 = MD5Utils.CalculateMD5("C:\\TestRep\\ALPHA\\ALPHA.c_package.spc");
+            string s2 = MD5Utils.CalculateMD5path("C:\\TestRep\\ALPHA\\ALPHA.c_package.spc");
             Console.WriteLine(s2);
         }
     }
