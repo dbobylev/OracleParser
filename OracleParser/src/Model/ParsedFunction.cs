@@ -5,16 +5,16 @@ using System.Text;
 
 namespace OracleParser.Model
 {
-    public class Function : Procedure
+    public class ParsedFunction : ParsedProcedure
     {
         [JsonProperty]
         public string ReturnType { get; private set; }
-        public Function(string name):base(name)
+        public ParsedFunction(string name):base(name)
         {
 
         }
 
-        public Function()
+        public ParsedFunction()
         {
 
         }

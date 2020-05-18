@@ -28,20 +28,20 @@ namespace OracleParser
             Seri.InitConfig(configuration);
         }
 
-        public PackagePart GetPackageBody(string filePath)
+        public ParsedPackagePart GetPackageBody(string filePath)
         {
             IParseTree tree = Analyzer.RunUpperCase(filePath);
             PackageBodyVisitor visitor = new PackageBodyVisitor();
-            PackagePart packageBody = visitor.Visit(tree);
+            ParsedPackagePart packageBody = visitor.Visit(tree);
             return packageBody;
         }
 
-        public Package GetPackage(RepositoryPackage repPackage)
+        public ParsedPackage GetPackage(RepositoryPackage repPackage)
         {
             Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
-            Package answer;
+            ParsedPackage answer;
 
-            Func<string, PackagePart> GetPart = (x) =>
+            Func<string, ParsedPackagePart> GetPart = (x) =>
             {
                 var visitor = new PackageBodyVisitor();
                 var tree = Analyzer.RunUpperCase(x);
@@ -51,7 +51,7 @@ namespace OracleParser
 
             PackageManager manager = new PackageManager();
 
-            if (manager.CheckParsedPackage(repPackage, out Package savedParderPackage))
+            if (manager.CheckParsedPackage(repPackage, out ParsedPackage savedParderPackage))
             {
                 Seri.Log.Debug("Пресохраненные данные найдены, возвращаем их");
                 answer = savedParderPackage;
@@ -64,7 +64,7 @@ namespace OracleParser
                 var spec = GetPart(repPackage.SpecRepFullPath);
                 var body = GetPart(repPackage.BodyRepFullPath);
 
-                answer = new Package(repPackage.ObjectName, spec, body);
+                answer = new ParsedPackage(repPackage.ObjectName, spec, body);
                 manager.SaveParsedPackage(repPackage, answer);
             }
 

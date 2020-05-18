@@ -11,30 +11,30 @@ using System.Linq;
 
 namespace OracleParser.src.Visitors
 {
-    class ProcedureVisitor:PlSqlParserBaseVisitor<Procedure>
+    class ProcedureVisitor:PlSqlParserBaseVisitor<ParsedProcedure>
     {
         private ParameterVisitor _parameterVisitor = new ParameterVisitor();
-        protected Procedure _Result;
+        protected ParsedProcedure _Result;
 
-        protected override Procedure DefaultResult => _Result;
+        protected override ParsedProcedure DefaultResult => _Result;
 
-        public override Procedure Visit(IParseTree tree)
+        public override ParsedProcedure Visit(IParseTree tree)
         {
             var identifierContext = tree.GetChild(1);
             if (!(identifierContext is PlSqlParser.IdentifierContext))
                 throw new NotImplementedException("Ожидалось имя процедуры");
-            _Result = new Procedure(identifierContext.GetText());
+            _Result = new ParsedProcedure(identifierContext.GetText());
             return base.Visit(tree);
         }
 
-        public override Procedure VisitParameter([NotNull] PlSqlParser.ParameterContext context)
+        public override ParsedProcedure VisitParameter([NotNull] PlSqlParser.ParameterContext context)
         {
             var parameter = _parameterVisitor.Visit(context).SetPositionExt(context);
             _Result.AddParametr(parameter);
             return base.VisitParameter(context);
         }
 
-        public override Procedure VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
+        public override ParsedProcedure VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
         {
             _Result.AddElement(Helper.ReadElement(context));
             return base.VisitGeneral_element_part(context);

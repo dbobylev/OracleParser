@@ -10,9 +10,9 @@ namespace OracleParser.Saver
     class PackageResult : BaseResult
     {
         [JsonProperty]
-        public Package _package { get; private set; }
+        public ParsedPackage _package { get; private set; }
 
-        public PackageResult(Package package, string sha): base(package.Name, sha)
+        public PackageResult(ParsedPackage package, string sha): base(package.Name, sha)
         {
             _package = package;
         }

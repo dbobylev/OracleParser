@@ -7,39 +7,39 @@ using System.Text;
 
 namespace OracleParser.Model
 {
-    public class Procedure :PieceOfCode
+    public class ParsedProcedure :PieceOfCode
     {
         [JsonProperty]
-        private List<Parameter> _parameters;
+        private List<ParsedParameter> _parameters;
         [JsonProperty]
-        private List<Element> _elements;
+        private List<ParsedElement> _elements;
 
         [JsonProperty]
         public string Name { get; private set; }
 
         [JsonIgnore]
-        public IReadOnlyCollection<Parameter> Parameters { get => _parameters.AsReadOnly(); }
+        public IReadOnlyCollection<ParsedParameter> Parameters { get => _parameters.AsReadOnly(); }
         [JsonIgnore]
-        public IReadOnlyCollection<Element> Elements { get => _elements.AsReadOnly(); }
+        public IReadOnlyCollection<ParsedElement> Elements { get => _elements.AsReadOnly(); }
 
-        public Procedure(string name)
+        public ParsedProcedure(string name)
         {
             Name = name;
-            _parameters = new List<Parameter>();
-            _elements = new List<Element>();
+            _parameters = new List<ParsedParameter>();
+            _elements = new List<ParsedElement>();
         }
 
-        public Procedure()
+        public ParsedProcedure()
         {
 
         }
 
-        public void AddParametr(Parameter parameter)
+        public void AddParametr(ParsedParameter parameter)
         {
             _parameters.Add(parameter);
         }
 
-        public void AddElement(Element element)
+        public void AddElement(ParsedElement element)
         {
             _elements.Add(element);
         }

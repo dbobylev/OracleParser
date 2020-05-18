@@ -12,57 +12,57 @@ using OracleParser.src.Visitors;
 
 namespace OracleParser.Visitors
 {
-    class PackageBodyVisitor :PlSqlParserBaseVisitor<PackagePart>
+    class PackageBodyVisitor :PlSqlParserBaseVisitor<ParsedPackagePart>
     {
         private FunctionVisitor _functionVisitor = new FunctionVisitor();
         private ProcedureVisitor _procedureVisitor = new ProcedureVisitor();
-        private PackagePart _Result;
+        private ParsedPackagePart _Result;
 
-        protected override PackagePart DefaultResult => _Result;
+        protected override ParsedPackagePart DefaultResult => _Result;
 
         public PackageBodyVisitor()
         {
-            _Result = new PackagePart();
+            _Result = new ParsedPackagePart();
         }
 
-        public override PackagePart VisitPackage_obj_body([NotNull] PlSqlParser.Package_obj_bodyContext context)
+        public override ParsedPackagePart VisitPackage_obj_body([NotNull] PlSqlParser.Package_obj_bodyContext context)
         {
             ProcessObj(context);
             return base.VisitPackage_obj_body(context);
         }
 
-        public override PackagePart VisitPackage_obj_spec([NotNull] PlSqlParser.Package_obj_specContext context)
+        public override ParsedPackagePart VisitPackage_obj_spec([NotNull] PlSqlParser.Package_obj_specContext context)
         {
             ProcessObj(context);
             return base.VisitPackage_obj_spec(context);
         }
 
-        public override PackagePart VisitVariable_declaration([NotNull] PlSqlParser.Variable_declarationContext context)
+        public override ParsedPackagePart VisitVariable_declaration([NotNull] PlSqlParser.Variable_declarationContext context)
         {
             var name = context.GetChild(0).GetText();
             var pltype = context.GetChild(1).GetText();
 
             if (name == "PROCEDURE")
             {
-                var procedure = new Procedure(pltype);
+                var procedure = new ParsedProcedure(pltype);
                 procedure.SetPosition(context);
                 _Result.AddProcedure(procedure);
             }
             else
             {
-                var variable = new Variable(name, pltype);
+                var variable = new ParsedVariable(name, pltype);
                 variable.SetPosition(context);
                 _Result.AddVariable(variable);
             }
             return base.VisitVariable_declaration(context);
         }
 
-        public override PackagePart VisitCursor_declaration([NotNull] PlSqlParser.Cursor_declarationContext context)
+        public override ParsedPackagePart VisitCursor_declaration([NotNull] PlSqlParser.Cursor_declarationContext context)
         {
             return base.VisitCursor_declaration(context);
         }
 
-        public override PackagePart VisitType_declaration([NotNull] PlSqlParser.Type_declarationContext context)
+        public override ParsedPackagePart VisitType_declaration([NotNull] PlSqlParser.Type_declarationContext context)
         {
             return base.VisitType_declaration(context);
         }

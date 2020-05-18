@@ -5,19 +5,19 @@ using System.Text;
 
 namespace OracleParser.Model
 {
-    public class Parameter :PieceOfCode
+    public class ParsedParameter :PieceOfCode
     {
         [JsonProperty]
         public string Name { get; private set; }
         [JsonProperty]
         public string plType { get; private set; }
 
-        public Parameter(string name)
+        public ParsedParameter(string name)
         {
             Name = name;
         }
 
-        public Parameter()
+        public ParsedParameter()
         {
 
         }

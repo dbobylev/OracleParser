@@ -16,7 +16,7 @@ namespace OracleParser.src.Saver
         private const string SAVED_FOLDER = "ParsedPackages";
         private readonly string SAVED_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SAVED_FOLDER);
 
-        public void SaveParsedPackage(RepositoryPackage repPackage, Package parsedPackage)
+        public void SaveParsedPackage(RepositoryPackage repPackage, ParsedPackage parsedPackage)
         {
             if (!Directory.Exists(SAVED_PATH))
                 Directory.CreateDirectory(SAVED_PATH);
@@ -28,7 +28,7 @@ namespace OracleParser.src.Saver
             File.WriteAllText(GetSavedInstancePath(repPackage), json);
         }
 
-        public bool CheckParsedPackage(RepositoryPackage repPackage, out Package savedParcedPackage)
+        public bool CheckParsedPackage(RepositoryPackage repPackage, out ParsedPackage savedParcedPackage)
         {
             Seri.Log.Verbose($"CheckParsedPackage begin repPackage={repPackage}");
             bool answer;

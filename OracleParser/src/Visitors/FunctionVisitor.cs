@@ -11,36 +11,36 @@ using System.Text;
 
 namespace OracleParser.Visitors
 {
-    class FunctionVisitor : PlSqlParserBaseVisitor<Function>
+    class FunctionVisitor : PlSqlParserBaseVisitor<ParsedFunction>
     {
         private ParameterVisitor _parameterVisitor = new ParameterVisitor();
-        private Function _Result;
+        private ParsedFunction _Result;
 
-        protected override Function DefaultResult => _Result;
+        protected override ParsedFunction DefaultResult => _Result;
 
-        public override Function Visit(IParseTree tree)
+        public override ParsedFunction Visit(IParseTree tree)
         {
             var identifierContext = tree.GetChild(1);
             if (!(identifierContext is PlSqlParser.IdentifierContext))
                 throw new NotImplementedException("Ожидалось имя функции");
-            _Result = new Function(identifierContext.GetText());
+            _Result = new ParsedFunction(identifierContext.GetText());
             return base.Visit(tree);
         }
 
-        public override Function VisitType_spec([NotNull] PlSqlParser.Type_specContext context)
+        public override ParsedFunction VisitType_spec([NotNull] PlSqlParser.Type_specContext context)
         {
             _Result.SetReturnType(context.GetText());
             return base.VisitType_spec(context);
         }
 
-        public override Function VisitParameter([NotNull] PlSqlParser.ParameterContext context)
+        public override ParsedFunction VisitParameter([NotNull] PlSqlParser.ParameterContext context)
         {
             var parameter = _parameterVisitor.Visit(context).SetPositionExt(context);
             _Result.AddParametr(parameter);
             return base.VisitParameter(context);
         }
 
-        public override Function VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
+        public override ParsedFunction VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
         {
             _Result.AddElement(Helper.ReadElement(context));
             return base.VisitGeneral_element_part(context);

@@ -4,18 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OracleParser.src.Model
+namespace OracleParser.Model
 {
-    public class Element :PieceOfCode
+    public class ParsedElement :PieceOfCode
     {
         [JsonProperty]
         public string Text { get; private set; }
-        public Element(string text)
+        public ParsedElement(string text)
         {
             Text = text;
         }
 
-        public Element()
+        public ParsedElement()
         {
 
         }
