@@ -40,7 +40,8 @@ namespace DataBaseRepository
         }
         public string GetTextOfFile(string filepath, int LineBeg, int LineEnd)
         {
-            return string.Join("\r\n", File.ReadLines(filepath).Skip(LineBeg - 1).Take(LineEnd - LineBeg));
+            LineBeg--;
+            return string.Join("\r\n", File.ReadLines(filepath).Skip(LineBeg).Take(LineEnd - LineBeg));
         }
 
 
