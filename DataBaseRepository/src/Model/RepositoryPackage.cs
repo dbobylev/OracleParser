@@ -37,5 +37,18 @@ namespace DataBaseRepository.Model
         {
             get => Path.Combine(DBRep.Instance().RepositoryPath, SpecRepFilePath);
         }
+
+        public string RepFullPath(eRepositoryObjectType objectType)
+        {
+            switch (objectType)
+            {
+                case eRepositoryObjectType.Package_Spec:
+                    return SpecRepFullPath;
+                case eRepositoryObjectType.Package_Body:
+                    return BodyRepFullPath;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }
