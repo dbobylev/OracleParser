@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using AntlrOraclePlsql;
 using OracleParser.Model;
@@ -24,6 +25,25 @@ namespace OracleParser.Visitors
             if (!(identifierContext is PlSqlParser.IdentifierContext))
                 throw new NotImplementedException("Ожидалось имя функции");
             _Result = new ParsedFunction(identifierContext.GetText());
+
+            int chCnt = tree.ChildCount;
+            for (int i = 2; i < chCnt; i++)
+            {
+                var s = tree.GetChild(i);
+                if (s is TerminalNodeImpl terminalNoeImpl)
+                {
+                    var txt = terminalNoeImpl.Symbol.Text;
+                    if (txt == "IS" || txt == "AS")
+                    {
+                        PieceOfCode codePosition = new PieceOfCode();
+                        codePosition.SetPosition(tree as ParserRuleContext);
+                        codePosition.SetPosition(tree.GetChild(i - 1) as ParserRuleContext);
+                        _Result.SetDeclarationPart(codePosition);
+                        break;
+                    }
+                }
+            }
+
             return base.Visit(tree);
         }
 

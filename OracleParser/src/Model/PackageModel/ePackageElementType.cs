@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OracleParser.Model
+namespace OracleParser.Model.PackageModel
 {
-    public enum eParsedPackageElementType
+    public enum ePackageElementType
     {
         method,
         variable

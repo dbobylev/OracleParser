@@ -6,16 +6,16 @@ using System.Text;
 
 namespace OracleParser.Model
 {
-    public class ParsedElement :PieceOfCode
+    public class ParsedLink :PieceOfCode
     {
         [JsonProperty]
         public string Text { get; private set; }
-        public ParsedElement(string text)
+        public ParsedLink(string text)
         {
             Text = text;
         }
 
-        public ParsedElement()
+        public ParsedLink()
         {
 
         }

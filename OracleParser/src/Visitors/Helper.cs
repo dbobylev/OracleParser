@@ -11,11 +11,11 @@ namespace OracleParser.src.Visitors
 {
     static class Helper
     {
-        public static ParsedElement ReadElement(PlSqlParser.General_element_partContext context)
+        public static ParsedLink ReadElement(PlSqlParser.General_element_partContext context)
         {
             PlSqlParser.Id_expressionContext[] Id_expressionContexts = context.id_expression();
             string elementName = string.Join(".", Id_expressionContexts.Select(x => x.GetText()));
-            ParsedElement element = new ParsedElement(elementName);
+            ParsedLink element = new ParsedLink(elementName);
             element.SetPosition(Id_expressionContexts.First());
             element.SetPosition(Id_expressionContexts.Last());
             return element;
