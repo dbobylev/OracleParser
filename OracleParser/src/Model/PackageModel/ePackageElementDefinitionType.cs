@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OracleParser.Model.PackageModel
 {
-    enum ePackageElementDefinitionType
+    public enum ePackageElementDefinitionType
     {
         Spec,
         BodyFull,

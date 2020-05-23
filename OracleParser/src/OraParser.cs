@@ -40,7 +40,7 @@ namespace OracleParser
         public Package GetPackage(RepositoryPackage repPackage)
         {
             Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
-            ParsedPackage answer;
+            Package answer;
 
             Func<string, ParsedPackagePart> GetPart = (x) =>
             {
@@ -52,7 +52,7 @@ namespace OracleParser
 
             PackageManager manager = new PackageManager();
 
-            if (manager.CheckParsedPackage(repPackage, out ParsedPackage savedParderPackage))
+            if (manager.CheckPackage(repPackage, out Package savedParderPackage))
             {
                 Seri.Log.Debug("Пресохраненные данные найдены, возвращаем их");
                 answer = savedParderPackage;
@@ -65,7 +65,7 @@ namespace OracleParser
                 var spec = GetPart(repPackage.SpecRepFullPath);
                 var body = GetPart(repPackage.BodyRepFullPath);
 
-                answer = new ParsedPackage(repPackage.ObjectName, spec, body);
+                answer = new Package(spec, body);
                 manager.SaveParsedPackage(repPackage, answer);
             }
 

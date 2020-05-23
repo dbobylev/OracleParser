@@ -48,10 +48,20 @@ namespace OracleParser.Model
 
         }
 
+        public PieceOfCode(PieceOfCode obj)
+        {
+            LineBeg = obj.LineBeg;
+            LineEnd = obj.LineEnd;
+            ColumnBeg = obj.ColumnBeg;
+            ColumnEnd = obj.ColumnEnd;
+        }
+
         [JsonIgnore]
         public string PrintPos
         {
             get => $"({LineBeg}.{ColumnBeg}:{LineEnd}.{ColumnEnd})";
         }
+
+        public PieceOfCode Position() => new PieceOfCode(this);
     }
 }

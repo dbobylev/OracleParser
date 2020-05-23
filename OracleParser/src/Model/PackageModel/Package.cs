@@ -6,10 +6,10 @@ using System.Text;
 
 namespace OracleParser.Model.PackageModel
 {
-    class Package
+    public class Package
     {
         [JsonProperty]
-        List<PackageElement> elements;
+        public List<PackageElement> elements { get; private set; }
 
         public Package(ParsedPackagePart spec, ParsedPackagePart body)
         {
@@ -22,7 +22,7 @@ namespace OracleParser.Model.PackageModel
                 var methodName = method.Name;
 
                 var element = new PackageElement(methodName, ePackageElementType.Method);
-                element.AddPosition(ePackageElementDefinitionType.BodyFull, method);
+                element.AddPosition(ePackageElementDefinitionType.BodyFull, method.Position());
 
                 // Фиксируем часть спецификации в теле
                 element.AddPosition(ePackageElementDefinitionType.BodyDeclaration, method.DeclarationPart);
@@ -30,10 +30,16 @@ namespace OracleParser.Model.PackageModel
                 // Ищем определение метода в спецификации
                 var specMethod = spec.Procedures.FirstOrDefault(x => x.Name == methodName);
                 if (specMethod != null)
-                    element.AddPosition(ePackageElementDefinitionType.Spec, specMethod);
+                    element.AddPosition(ePackageElementDefinitionType.Spec, specMethod.Position());
 
                 element.AddLinks(method.Elements);
+                elements.Add(element);
             }
+        }
+
+        public Package()
+        {
+
         }
     }
 }

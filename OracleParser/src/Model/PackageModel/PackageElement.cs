@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OracleParser.Model.PackageModel
 {
-    class PackageElement
+    public class PackageElement
     {
         [JsonProperty]
         public string Name { get; private set; }
@@ -26,6 +26,11 @@ namespace OracleParser.Model.PackageModel
             ElementType = elementType;
             Position = new Dictionary<ePackageElementDefinitionType, PieceOfCode>();
             Links = new List<ParsedLink>();
+        }
+
+        public PackageElement()
+        {
+
         }
 
         public void AddPosition(ePackageElementDefinitionType packageElementDefinitionType, PieceOfCode posCode)

@@ -23,13 +23,13 @@ namespace OracleParser.src.Saver
                 Directory.CreateDirectory(SAVED_PATH);
 
             var sha = MD5Utils.RepositoryPackageMD5(repPackage);
-            var packageResult = new PackageResult(package, sha);
+            var packageResult = new PackageResult(package, repPackage.ObjectName, sha);
             var json = JsonConvert.SerializeObject(packageResult);
 
             File.WriteAllText(GetSavedInstancePath(repPackage), json);
         }
 
-        public bool CheckParsedPackage(RepositoryPackage repPackage, out Package package)
+        public bool CheckPackage(RepositoryPackage repPackage, out Package package)
         {
             Seri.Log.Verbose($"CheckParsedPackage begin repPackage={repPackage}");
             bool answer;
