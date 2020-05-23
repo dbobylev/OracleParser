@@ -14,8 +14,7 @@ namespace OracleParser.Visitors
 {
     class PackageBodyVisitor :PlSqlParserBaseVisitor<ParsedPackagePart>
     {
-        private FunctionVisitor _functionVisitor = new FunctionVisitor();
-        private ProcedureVisitor _procedureVisitor = new ProcedureVisitor();
+        private MethodVisitor _procedureVisitor = new MethodVisitor();
         private ParsedPackagePart _Result;
 
         protected override ParsedPackagePart DefaultResult => _Result;
@@ -44,7 +43,7 @@ namespace OracleParser.Visitors
 
             if (name == "PROCEDURE")
             {
-                var procedure = new ParsedProcedure(pltype);
+                var procedure = new ParsedMethod(pltype, Model.PackageModel.ePackageElementType.Method);
                 procedure.SetPosition(context);
                 _Result.AddProcedure(procedure);
             }
@@ -70,15 +69,13 @@ namespace OracleParser.Visitors
         private void ProcessObj(ParserRuleContext context)
         {
             ParserRuleContext child = context.GetChild(0) as ParserRuleContext;
-            if (child is PlSqlParser.Procedure_bodyContext || child is PlSqlParser.Procedure_specContext)
+            if (   child is PlSqlParser.Procedure_bodyContext 
+                || child is PlSqlParser.Procedure_specContext
+                || child is PlSqlParser.Function_bodyContext 
+                || child is PlSqlParser.Function_specContext)
             {
                 var procedure = _procedureVisitor.Visit(child).SetPositionExt(child);
                 _Result.AddProcedure(procedure);
-            }
-            else if (child is PlSqlParser.Function_bodyContext || child is PlSqlParser.Function_specContext)
-            {
-                var function = _functionVisitor.Visit(child).SetPositionExt(child);
-                _Result.AddProcedure(function);
             }
         }
     }

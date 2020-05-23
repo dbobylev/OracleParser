@@ -10,22 +10,22 @@ namespace OracleParser.Model
     public class ParsedPackagePart
     {
         [JsonProperty]
-        private List<ParsedProcedure> _procedures;
+        private List<ParsedMethod> _procedures;
         [JsonProperty]
         private List<ParsedVariable> _variables;
 
         [JsonIgnore]
-        public IReadOnlyList<ParsedProcedure> Procedures { get => _procedures.AsReadOnly(); }
+        public IReadOnlyList<ParsedMethod> Procedures { get => _procedures.AsReadOnly(); }
         [JsonIgnore]
         public IReadOnlyList<ParsedVariable> Variables { get => _variables.AsReadOnly(); }
 
         public ParsedPackagePart()
         {
-            _procedures = new List<ParsedProcedure>();
+            _procedures = new List<ParsedMethod>();
             _variables = new List<ParsedVariable>();
         }
 
-        public void AddProcedure(ParsedProcedure procedure)
+        public void AddProcedure(ParsedMethod procedure)
         {
             _procedures.Add(procedure);
         }

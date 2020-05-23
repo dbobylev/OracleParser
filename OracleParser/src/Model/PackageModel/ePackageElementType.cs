@@ -6,7 +6,7 @@ namespace OracleParser.Model.PackageModel
 {
     public enum ePackageElementType
     {
-        method,
-        variable
+        Method,
+        Variable
     }
 }
