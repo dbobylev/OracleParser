@@ -17,8 +17,6 @@ namespace OracleParser.Model
         [JsonProperty]
         public string ReturnType { get; private set; }
 
-        public ePackageElementType PackageElementType { get; private set; }
-
         [JsonProperty]
         public string Name { get; private set; }
         [JsonProperty]
@@ -29,12 +27,11 @@ namespace OracleParser.Model
         [JsonIgnore]
         public IReadOnlyCollection<ParsedLink> Elements { get => _elements.AsReadOnly(); }
 
-        public ParsedMethod(string name, ePackageElementType packageElementType)
+        public ParsedMethod(string name)
         {
             Name = name;
             _parameters = new List<ParsedParameter>();
             _elements = new List<ParsedLink>();
-            PackageElementType = packageElementType;
         }
 
         public ParsedMethod()

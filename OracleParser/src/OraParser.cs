@@ -9,6 +9,7 @@ using System;
 using DataBaseRepository;
 using System.IO;
 using OracleParser.src.Saver;
+using OracleParser.Model.PackageModel;
 
 namespace OracleParser
 {
@@ -36,7 +37,7 @@ namespace OracleParser
             return packageBody;
         }
 
-        public ParsedPackage GetPackage(RepositoryPackage repPackage)
+        public Package GetPackage(RepositoryPackage repPackage)
         {
             Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
             ParsedPackage answer;

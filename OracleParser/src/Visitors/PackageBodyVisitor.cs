@@ -43,7 +43,7 @@ namespace OracleParser.Visitors
 
             if (name == "PROCEDURE")
             {
-                var procedure = new ParsedMethod(pltype, Model.PackageModel.ePackageElementType.Method);
+                var procedure = new ParsedMethod(pltype);
                 procedure.SetPosition(context);
                 _Result.AddProcedure(procedure);
             }

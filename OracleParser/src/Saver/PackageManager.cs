@@ -1,6 +1,7 @@
 ﻿using DataBaseRepository.Model;
 using Newtonsoft.Json;
 using OracleParser.Model;
+using OracleParser.Model.PackageModel;
 using OracleParser.Saver;
 using System;
 using System.Collections.Generic;
@@ -16,23 +17,23 @@ namespace OracleParser.src.Saver
         private const string SAVED_FOLDER = "ParsedPackages";
         private readonly string SAVED_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SAVED_FOLDER);
 
-        public void SaveParsedPackage(RepositoryPackage repPackage, ParsedPackage parsedPackage)
+        public void SaveParsedPackage(RepositoryPackage repPackage, Package package)
         {
             if (!Directory.Exists(SAVED_PATH))
                 Directory.CreateDirectory(SAVED_PATH);
 
             var sha = MD5Utils.RepositoryPackageMD5(repPackage);
-            var packageResult = new PackageResult(parsedPackage, sha);
+            var packageResult = new PackageResult(package, sha);
             var json = JsonConvert.SerializeObject(packageResult);
 
             File.WriteAllText(GetSavedInstancePath(repPackage), json);
         }
 
-        public bool CheckParsedPackage(RepositoryPackage repPackage, out ParsedPackage savedParcedPackage)
+        public bool CheckParsedPackage(RepositoryPackage repPackage, out Package package)
         {
             Seri.Log.Verbose($"CheckParsedPackage begin repPackage={repPackage}");
             bool answer;
-            savedParcedPackage = null;
+            package = null;
 
             var SavedInstancePath = GetSavedInstancePath(repPackage);
             Seri.Log.Verbose($"SavedInstancePath={SavedInstancePath}");
@@ -43,7 +44,7 @@ namespace OracleParser.src.Saver
                 var currentSha = MD5Utils.RepositoryPackageMD5(repPackage);
                 string fileText = File.ReadAllText(SavedInstancePath);
                 var packageResult = JsonConvert.DeserializeObject<PackageResult>(fileText);
-                savedParcedPackage = packageResult._package;
+                package = packageResult._package;
                 answer = packageResult.SHA == currentSha;
             }
             Seri.Log.Verbose($"CheckParsedPackage answer:{answer}");

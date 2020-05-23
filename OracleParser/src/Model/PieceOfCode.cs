@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,18 @@ namespace OracleParser.Model
 
             LineEnd = parser.Stop.Line;
             ColumnEnd = parser.Stop.Column + parser.Stop.StopIndex - parser.Stop.StartIndex;
+        }
+
+        public void SetPosition(TerminalNodeImpl terminalNodeImpl)
+        {
+            if (LineBeg == 0)
+            {
+                LineBeg = terminalNodeImpl.Symbol.Line;
+                ColumnBeg = terminalNodeImpl.Symbol.Column;
+            }
+
+            LineEnd = terminalNodeImpl.Symbol.Line;
+            ColumnEnd = terminalNodeImpl.Symbol.Column + terminalNodeImpl.Symbol.StopIndex - terminalNodeImpl.Symbol.StartIndex;
         }
 
         public PieceOfCode()

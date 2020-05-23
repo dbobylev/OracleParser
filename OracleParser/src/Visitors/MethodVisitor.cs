@@ -28,7 +28,7 @@ namespace OracleParser.src.Visitors
             var identifierContext = tree.GetChild(1);
             if (!(identifierContext is PlSqlParser.IdentifierContext))
                 throw new NotImplementedException("Ожидалось имя процедуры");
-            _Result = new ParsedMethod(identifierContext.GetText(), ePackageElementType.Method);
+            _Result = new ParsedMethod(identifierContext.GetText());
             
             int chCnt = tree.ChildCount;
             for (int i = 2; i < chCnt; i++)
@@ -37,7 +37,11 @@ namespace OracleParser.src.Visitors
                     {
                         PieceOfCode codePosition = new PieceOfCode();
                         codePosition.SetPosition(tree as ParserRuleContext);
-                        codePosition.SetPosition(tree.GetChild(i - 1) as ParserRuleContext);
+                        var PrevChild = tree.GetChild(i - 1);
+                        if (PrevChild is ParserRuleContext PrevContext)
+                            codePosition.SetPosition(PrevContext);
+                        else if (PrevChild is TerminalNodeImpl PrevTerminalNodeImpl)
+                            codePosition.SetPosition(PrevTerminalNodeImpl);
                         _Result.SetDeclarationPart(codePosition);
                         break;
                     }
