@@ -20,6 +20,11 @@ namespace OracleParser.Model.PackageModel
         [JsonProperty]
         public List<ParsedLink> Links { get; private set; }
 
+        [JsonIgnore]
+        public bool HasSpec => Position.Keys.Contains(ePackageElementDefinitionType.Spec);
+        [JsonIgnore]
+        public bool HasBody => Position.Keys.Contains(ePackageElementDefinitionType.BodyFull);
+
         public PackageElement(string name, ePackageElementType elementType)
         {
             Name = name;
