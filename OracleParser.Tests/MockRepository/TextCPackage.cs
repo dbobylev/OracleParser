@@ -26,8 +26,6 @@ namespace OracleParser.Tests.MockRepository
    
    -- Removes a customer 
    PROCEDURE delCustomer(c_id  customers.ider%TYPE); 
-   --Lists all customers 
-   function sum(a number) return sys_refcursor; 
 
    PROCEDURE listCustomer; 
   
@@ -50,6 +48,13 @@ END c_package;
    function test(a in number, b in number) return varchar2 is
     begin
     return '123';
+    end;
+
+   function SumOfTwo(a in number, b in number) return number is
+     vRes number;
+    begin
+    vRes := a + b;
+    return vRes;
     end;
    
    PROCEDURE delCustomer(c_id   customers.id%type) IS 
