@@ -34,14 +34,18 @@ namespace DataBaseRepository
             return fileFilter.Search().Select(x=> new RepositoryObject(x));
         }
 
-        public string GetTextOfFile(RepositoryObject file, int LineBeg, int LineEnd)
+        public string GetTextOfFile(RepositoryObject file, int LineBeg, int LineEnd, int? LastPos = null)
         {
-            return GetTextOfFile(Path.Combine(RepositoryPath, file.RepFilePath), LineBeg, LineEnd);
+            return GetTextOfFile(Path.Combine(RepositoryPath, file.RepFilePath), LineBeg, LineEnd, LastPos);
         }
-        public string GetTextOfFile(string filepath, int LineBeg, int LineEnd)
+        public string GetTextOfFile(string filepath, int LineBeg, int LineEnd, int? LastPos = null)
         {
             LineBeg--;
-            return string.Join("\r\n", File.ReadLines(filepath).Skip(LineBeg).Take(LineEnd - LineBeg));
+            var lines = File.ReadLines(filepath).Skip(LineBeg).Take(LineEnd - LineBeg).ToArray();
+            if (LastPos != null)
+                lines[lines.Length - 1] = lines.Last().Substring(0, (int)LastPos + 1);
+
+            return string.Join("\r\n", lines);
         }
 
 
