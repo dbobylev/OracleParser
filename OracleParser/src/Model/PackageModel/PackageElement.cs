@@ -15,10 +15,12 @@ namespace OracleParser.Model.PackageModel
         public ePackageElementType ElementType { get; private set; }
 
         [JsonProperty]
-        public Dictionary<ePackageElementDefinitionType, PieceOfCode> Position { get; private set; }
+        public Dictionary<ePackageElementDefinitionType, PieceOfCode> Position { get; private set; } = new Dictionary<ePackageElementDefinitionType, PieceOfCode>();
 
         [JsonProperty]
-        public List<ParsedLink> Links { get; private set; }
+        public List<ParsedLink> Links { get; private set; } = new List<ParsedLink>();
+
+        public List<ParsedParameter> Parametres { get; private set; } = new List<ParsedParameter>();
 
         [JsonIgnore]
         public bool HasSpec => Position.Keys.Contains(ePackageElementDefinitionType.Spec);
@@ -29,8 +31,6 @@ namespace OracleParser.Model.PackageModel
         {
             Name = name;
             ElementType = elementType;
-            Position = new Dictionary<ePackageElementDefinitionType, PieceOfCode>();
-            Links = new List<ParsedLink>();
         }
 
         public PackageElement()
@@ -41,11 +41,6 @@ namespace OracleParser.Model.PackageModel
         public void AddPosition(ePackageElementDefinitionType packageElementDefinitionType, PieceOfCode posCode)
         {
             Position.Add(packageElementDefinitionType, posCode);
-        }
-
-        public void AddLinks(IEnumerable<ParsedLink> links)
-        {
-            Links.AddRange(links);
         }
     }
 }

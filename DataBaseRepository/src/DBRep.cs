@@ -45,7 +45,8 @@ namespace DataBaseRepository
             if (LastPos != null)
                 lines[lines.Length - 1] = lines.Last().Substring(0, (int)LastPos + 1);
 
-            return string.Join("\r\n", lines);
+            var answer = string.Join("\r\n", lines);
+            return answer;
         }
 
 

@@ -50,7 +50,9 @@ END c_package;
     return '123';
     end;
 
-   function SumOfTwo(a in number, b in number) return number is
+   function SumOfTwo(a in number, 
+                     b in number) 
+            return number is
      vRes number;
     begin
     vRes := a + b;

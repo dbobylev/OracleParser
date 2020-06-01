@@ -32,7 +32,9 @@ namespace OracleParser.Model.PackageModel
                 if (specMethod != null)
                     element.AddPosition(ePackageElementDefinitionType.Spec, specMethod.Position());
 
-                element.AddLinks(method.Elements);
+                element.Parametres.AddRange(method.Parameters);
+                element.Links.AddRange(method.Elements);
+                
                 elements.Add(element);
             }
         }
