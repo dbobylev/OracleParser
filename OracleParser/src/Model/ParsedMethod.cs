@@ -15,12 +15,15 @@ namespace OracleParser.Model
         [JsonProperty]
         private List<ParsedLink> _elements;
         [JsonProperty]
-        public string ReturnType { get; private set; }
+        public string ReturnType { get; set; }
 
         [JsonProperty]
         public string Name { get; private set; }
         [JsonProperty]
-        public PieceOfCode DeclarationPart { get; private set; }
+        public PieceOfCode DeclarationPart { get; set; }
+        [JsonProperty]
+        public PieceOfCode NameIdentifierPart { get; set; }
+
 
         [JsonIgnore]
         public IReadOnlyCollection<ParsedParameter> Parameters { get => _parameters.AsReadOnly(); }
@@ -47,16 +50,6 @@ namespace OracleParser.Model
         public void AddElement(ParsedLink element)
         {
             _elements.Add(element);
-        }
-
-        public void SetDeclarationPart(PieceOfCode decalrationPart)
-        {
-            DeclarationPart = decalrationPart;
-        }
-
-        public void SetReturnType(string pltype)
-        {
-            ReturnType = pltype;
         }
 
         public override string ToString()

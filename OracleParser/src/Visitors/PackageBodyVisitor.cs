@@ -72,6 +72,11 @@ namespace OracleParser.Visitors
                 {
                     var variable = new ParsedVariable(name, pltype);
                     variable.SetPosition(variableContext);
+
+                    var codePosition = new PieceOfCode();
+                    codePosition.SetPosition(variableContext.GetChild(0) as ParserRuleContext);
+                    variable.NameIdentifierPart = codePosition;
+
                     _Result.AddVariable(variable);
                 }
             }

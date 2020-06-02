@@ -49,6 +49,11 @@ namespace DataBaseRepository
             return answer;
         }
 
+        public string GetWordOfFile(string filepath, int Line, int ColumnBeg, int ColumnEnd)
+        {
+            Line--;
+            return File.ReadAllLines(filepath).Skip(Line).Take(1).First().Substring(ColumnBeg, ColumnEnd - ColumnBeg + 1);
+        }
 
         public IEnumerable<string> GetOwners()
         {

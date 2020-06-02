@@ -12,6 +12,8 @@ namespace OracleParser.src.Model
         public string Name { get; private set; }
         [JsonProperty]
         public string plType { get; private set; }
+        [JsonProperty]
+        public PieceOfCode NameIdentifierPart { get; set;}
 
         public ParsedVariable(string name, string pltype)
         {

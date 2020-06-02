@@ -30,19 +30,23 @@ namespace OracleParser.src.Visitors
                 throw new NotImplementedException("Ожидалось имя процедуры");
             _Result = new ParsedMethod(identifierContext.GetText());
             
+            var codePosition = new PieceOfCode();
+            codePosition.SetPosition(identifierContext as ParserRuleContext);
+            _Result.NameIdentifierPart = codePosition;
+
             int chCnt = tree.ChildCount;
             for (int i = 2; i < chCnt; i++)
                 if (tree.GetChild(i) is TerminalNodeImpl terminalNoeImpl)
                     if (terminalNoeImpl.Symbol.Text == "IS" || terminalNoeImpl.Symbol.Text == "AS")
                     {
-                        PieceOfCode codePosition = new PieceOfCode();
+                        codePosition = new PieceOfCode();
                         codePosition.SetPosition(tree as ParserRuleContext);
                         var PrevChild = tree.GetChild(i - 1);
                         if (PrevChild is ParserRuleContext PrevContext)
                             codePosition.SetPosition(PrevContext);
                         else if (PrevChild is TerminalNodeImpl PrevTerminalNodeImpl)
                             codePosition.SetPosition(PrevTerminalNodeImpl);
-                        _Result.SetDeclarationPart(codePosition);
+                        _Result.DeclarationPart = codePosition;
                         break;
                     }
 
@@ -64,7 +68,7 @@ namespace OracleParser.src.Visitors
 
         public override ParsedMethod VisitType_spec([NotNull] PlSqlParser.Type_specContext context)
         {
-            _Result.SetReturnType(context.GetText());
+            _Result.ReturnType = context.GetText();
             return base.VisitType_spec(context);
         }
     }

@@ -8,6 +8,7 @@ namespace OracleParser.Model.PackageModel
     {
         Spec,
         BodyFull,
-        BodyDeclaration
+        BodyDeclaration,
+        NameIdentifier
     }
 }

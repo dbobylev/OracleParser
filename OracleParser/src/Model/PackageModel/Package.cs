@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using DataBaseRepository;
+using DataBaseRepository.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace OracleParser.Model.PackageModel
         [JsonProperty]
         public List<PackageElement> elements { get; private set; }
 
-        public Package(ParsedPackagePart spec, ParsedPackagePart body)
+        public Package(ParsedPackagePart spec, ParsedPackagePart body, RepositoryPackage repositoryPackage)
         {
             elements = new List<PackageElement>();
 
@@ -19,7 +21,9 @@ namespace OracleParser.Model.PackageModel
             for (int i = 0; i < body.Procedures.Count; i++)
             {
                 var method = body.Procedures[i];
-                var methodName = method.Name;
+
+                var nameIdentifierPart = method.NameIdentifierPart;
+                var methodName = DBRep.Instance().GetWordOfFile(repositoryPackage.BodyRepFullPath, nameIdentifierPart.LineBeg, nameIdentifierPart.ColumnBeg, nameIdentifierPart.ColumnEnd);
 
                 var element = new PackageElement(methodName, ePackageElementType.Method);
                 element.AddPosition(ePackageElementDefinitionType.BodyFull, method.Position());
@@ -27,8 +31,11 @@ namespace OracleParser.Model.PackageModel
                 // Фиксируем часть спецификации в теле
                 element.AddPosition(ePackageElementDefinitionType.BodyDeclaration, method.DeclarationPart);
 
+                // Позиция названия метода
+                element.AddPosition(ePackageElementDefinitionType.NameIdentifier, nameIdentifierPart);
+
                 // Ищем определение метода в спецификации
-                var specMethod = spec.Procedures.FirstOrDefault(x => x.Name == methodName);
+                var specMethod = spec.Procedures.FirstOrDefault(x => x.Name == method.Name);
                 if (specMethod != null)
                     element.AddPosition(ePackageElementDefinitionType.Spec, specMethod.Position());
 
@@ -38,16 +45,18 @@ namespace OracleParser.Model.PackageModel
                 elements.Add(element);
             }
 
-            SetVariable(spec, ePackageElementDefinitionType.Spec);
-            SetVariable(body, ePackageElementDefinitionType.BodyFull);
+            SetVariable(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
+            SetVariable(body, ePackageElementDefinitionType.BodyFull, repositoryPackage.BodyRepFullPath);
         }
 
-        private void SetVariable(ParsedPackagePart part, ePackageElementDefinitionType positionType)
+        private void SetVariable(ParsedPackagePart part, ePackageElementDefinitionType positionType, string filepath)
         {
             for (int i = 0; i < part.Variables.Count; i++)
             {
                 var Variable = part.Variables[i];
-                var VariableName = Variable.Name;
+
+                var nameIdentifierPart = Variable.NameIdentifierPart;
+                var VariableName = DBRep.Instance().GetWordOfFile(filepath, nameIdentifierPart.LineBeg, nameIdentifierPart.ColumnBeg, nameIdentifierPart.ColumnEnd);
 
                 var element = new PackageElement(VariableName, ePackageElementType.Variable);
                 element.AddPosition(positionType, Variable.Position());
