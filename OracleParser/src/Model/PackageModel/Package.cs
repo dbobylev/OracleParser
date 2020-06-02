@@ -37,6 +37,23 @@ namespace OracleParser.Model.PackageModel
                 
                 elements.Add(element);
             }
+
+            SetVariable(spec, ePackageElementDefinitionType.Spec);
+            SetVariable(body, ePackageElementDefinitionType.BodyFull);
+        }
+
+        private void SetVariable(ParsedPackagePart part, ePackageElementDefinitionType positionType)
+        {
+            for (int i = 0; i < part.Variables.Count; i++)
+            {
+                var Variable = part.Variables[i];
+                var VariableName = Variable.Name;
+
+                var element = new PackageElement(VariableName, ePackageElementType.Variable);
+                element.AddPosition(positionType, Variable.Position());
+
+                elements.Add(element);
+            }
         }
 
         public Package()

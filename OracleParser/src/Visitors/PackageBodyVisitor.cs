@@ -36,26 +36,6 @@ namespace OracleParser.Visitors
             return base.VisitPackage_obj_spec(context);
         }
 
-        public override ParsedPackagePart VisitVariable_declaration([NotNull] PlSqlParser.Variable_declarationContext context)
-        {
-            var name = context.GetChild(0).GetText();
-            var pltype = context.GetChild(1).GetText();
-
-            if (name == "PROCEDURE")
-            {
-                var procedure = new ParsedMethod(pltype);
-                procedure.SetPosition(context);
-                _Result.AddProcedure(procedure);
-            }
-            else
-            {
-                var variable = new ParsedVariable(name, pltype);
-                variable.SetPosition(context);
-                _Result.AddVariable(variable);
-            }
-            return base.VisitVariable_declaration(context);
-        }
-
         public override ParsedPackagePart VisitCursor_declaration([NotNull] PlSqlParser.Cursor_declarationContext context)
         {
             return base.VisitCursor_declaration(context);
@@ -76,6 +56,24 @@ namespace OracleParser.Visitors
             {
                 var procedure = _procedureVisitor.Visit(child).SetPositionExt(child);
                 _Result.AddProcedure(procedure);
+            }
+            else if (child is PlSqlParser.Variable_declarationContext variableContext)
+            {
+                var name = variableContext.GetChild(0).GetText();
+                var pltype = variableContext.GetChild(1).GetText();
+
+                if (name == "PROCEDURE")
+                {
+                    var procedure = new ParsedMethod(pltype);
+                    procedure.SetPosition(variableContext);
+                    _Result.AddProcedure(procedure);
+                }
+                else
+                {
+                    var variable = new ParsedVariable(name, pltype);
+                    variable.SetPosition(variableContext);
+                    _Result.AddVariable(variable);
+                }
             }
         }
     }
