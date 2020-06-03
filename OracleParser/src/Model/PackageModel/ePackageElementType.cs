@@ -5,11 +5,14 @@ using System.Text;
 
 namespace OracleParser.Model.PackageModel
 {
+    [Flags]
     public enum ePackageElementType
     {
+        [Description("None")]
+        None                            = 0,
         [Description("Метод")]
-        Method,
+        Method                          = 1 << 0,
         [Description("Переменная")]
-        Variable
+        Variable                        = 1 << 1
     }
 }
