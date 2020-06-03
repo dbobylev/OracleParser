@@ -49,8 +49,8 @@ namespace OracleParser.Tests
             var str = "row1\r\n"
                 + "row2\r\n"
                 + "row3\r\n"
-                + "\r\n"
-                + "\r\n"
+                + "row4\r\n"
+                + "row5\r\n"
                 + "row6\r\n"
                 + "row7\r\n";
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GetEmptyLineTest.tmp");

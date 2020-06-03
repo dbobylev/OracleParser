@@ -64,7 +64,7 @@ namespace DataBaseRepository
 
         public int GetEmptyLine(string filePath, int LineBeg, int LineEnd)
         {
-            var answer = LineBeg;
+            var answer = LineEnd + 1;
             if (LineBeg < LineEnd)
                 throw new NotImplementedException();
             else if (LineBeg - LineEnd > 1)
