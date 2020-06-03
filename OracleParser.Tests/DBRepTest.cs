@@ -42,5 +42,22 @@ namespace OracleParser.Tests
             Directory.Delete(TempRep, true);
             Assert.AreEqual(new string[] { "ALPHA", "BETA", "GAMMA" }, z);
         }
+
+        [Test]
+        public void GetEmptyLineTest()
+        {
+            var str = "row1\r\n"
+                + "row2\r\n"
+                + "row3\r\n"
+                + "\r\n"
+                + "\r\n"
+                + "row6\r\n"
+                + "row7\r\n";
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GetEmptyLineTest.tmp");
+            File.WriteAllText(path, str);
+            var x = DBRep.Instance().GetEmptyLine(path, 7, 3);
+            File.Delete(path);
+            Assert.AreEqual(5, x);
+        }
     }
 }

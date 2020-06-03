@@ -43,6 +43,11 @@ namespace OracleParser.Model
             ColumnEnd = terminalNodeImpl.Symbol.Column + terminalNodeImpl.Symbol.StopIndex - terminalNodeImpl.Symbol.StartIndex;
         }
 
+        public void UpdateLiuneBeg(int lineBeg)
+        {
+            LineBeg = lineBeg;
+        }
+
         public PieceOfCode()
         {
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DataBaseRepository
 {
@@ -59,6 +60,24 @@ namespace DataBaseRepository
         {
             return Directory.GetDirectories(RepositoryPath)
                 .Select(x => x.Split(Path.DirectorySeparatorChar).Last().ToUpper());
+        }
+
+        public int GetEmptyLine(string filePath, int LineBeg, int LineEnd)
+        {
+            var answer = LineBeg;
+            if (LineBeg < LineEnd)
+                throw new NotImplementedException();
+            else if (LineBeg - LineEnd > 1)
+            {
+                var lines = File.ReadAllLines(filePath);
+                for (int i = LineBeg; i > LineEnd; i--)
+                    if (string.IsNullOrWhiteSpace((lines[i - 1])))
+                    {
+                        answer = i;
+                        break;
+                    }
+            }
+            return answer;
         }
     }
 }
