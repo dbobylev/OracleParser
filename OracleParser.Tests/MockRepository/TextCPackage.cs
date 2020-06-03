@@ -68,6 +68,10 @@ END c_package;
       WHERE id = c_id; 
    END delCustomer;  
    
+   /* очепушительный комент
+    * к процедуре
+    * listCustomer
+    */
    PROCEDURE listCustomer IS 
    CURSOR c_customers is 
       SELECT  name FROM customers; 

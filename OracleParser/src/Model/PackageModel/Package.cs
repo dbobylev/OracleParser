@@ -23,7 +23,7 @@ namespace OracleParser.Model.PackageModel
                 var method = body.Procedures[i];
 
                 var nameIdentifierPart = method.NameIdentifierPart;
-                var methodName = DBRep.Instance().GetWordOfFile(repositoryPackage.BodyRepFullPath, nameIdentifierPart.LineBeg, nameIdentifierPart.ColumnBeg, nameIdentifierPart.ColumnEnd);
+                var methodName = DBRep.Instance().GetWordInFile(repositoryPackage.BodyRepFullPath, nameIdentifierPart.LineBeg, nameIdentifierPart.ColumnBeg, nameIdentifierPart.ColumnEnd);
 
                 var element = new PackageElement(methodName, ePackageElementType.Method);
                 element.AddPosition(ePackageElementDefinitionType.BodyFull, method.Position());
@@ -58,7 +58,7 @@ namespace OracleParser.Model.PackageModel
                 var Variable = part.Variables[i];
 
                 var nameIdentifierPart = Variable.NameIdentifierPart;
-                var VariableName = DBRep.Instance().GetWordOfFile(filepath, nameIdentifierPart.LineBeg, nameIdentifierPart.ColumnBeg, nameIdentifierPart.ColumnEnd);
+                var VariableName = DBRep.Instance().GetWordInFile(filepath, nameIdentifierPart.LineBeg, nameIdentifierPart.ColumnBeg, nameIdentifierPart.ColumnEnd);
 
                 var element = new PackageElement(VariableName, ePackageElementType.Variable);
                 element.AddPosition(positionType, Variable.Position());
@@ -72,6 +72,10 @@ namespace OracleParser.Model.PackageModel
 
         }
 
+        /// <summary>
+        /// Переносим начало позиции участка кода что бы захыватить первичный комментарий
+        /// </summary>
+        /// <param name="repositoryPackage"></param>
         private void UpdateBeginLine(RepositoryPackage repositoryPackage)
         {
             Action<ePackageElementDefinitionType, string> run = (t, path) =>
@@ -88,7 +92,7 @@ namespace OracleParser.Model.PackageModel
                 for (int i = 1; i < q.Count(); i += 2)
                     NewLine.Add(q[i], DBRep.Instance().GetEmptyLine(path, q[i], q[i - 1]));
 
-                Seri.Log.Verbose(t.ToString() + ": " + string.Join(",", NewLine.Select(x => $""));
+                Seri.Log.Verbose(t.ToString() + ": " + string.Join(",", NewLine.Select(x => $"({x.Key} - {x.Value})")));
 
                 foreach (var item in z)
                 {

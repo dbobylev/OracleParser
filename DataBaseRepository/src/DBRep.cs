@@ -50,7 +50,7 @@ namespace DataBaseRepository
             return answer;
         }
 
-        public string GetWordOfFile(string filepath, int Line, int ColumnBeg, int ColumnEnd)
+        public string GetWordInFile(string filepath, int Line, int ColumnBeg, int ColumnEnd)
         {
             Line--;
             return File.ReadAllLines(filepath).Skip(Line).Take(1).First().Substring(ColumnBeg, ColumnEnd - ColumnBeg + 1);
@@ -73,7 +73,7 @@ namespace DataBaseRepository
                 for (int i = LineBeg; i > LineEnd; i--)
                     if (string.IsNullOrWhiteSpace((lines[i - 1])))
                     {
-                        answer = i;
+                        answer = i + 1;
                         break;
                     }
             }

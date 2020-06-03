@@ -57,7 +57,7 @@ namespace OracleParser.Tests
             File.WriteAllText(path, str);
             var x = DBRep.Instance().GetEmptyLine(path, 7, 3);
             File.Delete(path);
-            Assert.AreEqual(5, x);
+            Assert.AreEqual(6, x);
         }
     }
 }
