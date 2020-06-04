@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
 namespace OracleParser.Model.PackageModel
 {
-    public class PackageElement
+    public class PackageElement : IEquatable<ParsedMethod>
     {
         [JsonProperty]
         public string Name { get; private set; }
@@ -41,6 +42,23 @@ namespace OracleParser.Model.PackageModel
         public void AddPosition(ePackageElementDefinitionType packageElementDefinitionType, PieceOfCode posCode)
         {
             Position.Add(packageElementDefinitionType, posCode);
+        }
+
+        public bool Equals([AllowNull] ParsedMethod other)
+        {
+            bool ans = Name.ToUpper() == other.Name.ToUpper();
+
+            if (ans)
+            {
+                Func<List<ParsedParameter>, int> HashParam = 
+                    (x) => x.Count == 0 ? 0 : 
+                        x.Select((q, i) => (q.Name + i.ToString() + q.plType).ToUpper())
+                         .Aggregate((a, b) => a + b)
+                         .GetHashCode();
+                ans = HashParam(Parametres) == HashParam(other.Parameters.ToList());
+            }
+
+            return ans;
         }
     }
 }

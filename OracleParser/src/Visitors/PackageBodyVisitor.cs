@@ -54,7 +54,7 @@ namespace OracleParser.Visitors
                 || child is PlSqlParser.Function_specContext)
             {
                 var procedure = _procedureVisitor.Visit(child).SetPositionExt(child);
-                _Result.Procedures.Add(procedure);
+                _Result.Objects.Add(procedure);
             }
             else if (child is PlSqlParser.Variable_declarationContext variableContext)
             {
@@ -65,7 +65,7 @@ namespace OracleParser.Visitors
                 {
                     var procedure = new ParsedMethod(pltype);
                     procedure.SetPosition(variableContext);
-                    _Result.Procedures.Add(procedure);
+                    _Result.Objects.Add(procedure);
                 }
                 else
                 {

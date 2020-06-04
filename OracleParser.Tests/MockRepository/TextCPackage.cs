@@ -18,14 +18,14 @@ namespace OracleParser.Tests.MockRepository
    vur2 sys_refcursor;
 
    -- Adds a customer 
-   PROCEDURE addCustomer(c_id   customers.ider%type, 
+   PROCEDURE addCustomer(c_id   customers%type, 
    c_name  customerS.No.ame%type, 
    c_age  customers.age%type, 
    c_addr customers.address%type,  
    c_sal  customers.salary%type); 
    
    -- Removes a customer 
-   PROCEDURE delCustomer(c_id  customers.ider%TYPE); 
+   PROCEDURE delCustomer(c_id  customers%TYPE); 
 
    PROCEDURE listCustomer; 
   
@@ -39,7 +39,7 @@ END c_package;
 
    type PackageType is table of number;
 
-   PROCEDURE addCustomer(c_id  customers.id%type, 
+   PROCEDURE addCustomer(c_id  customers%type, 
       c_name customerS.No.ame%type, 
       c_age  customers.age%type, 
       c_addr  customers.address%type,  
@@ -64,7 +64,7 @@ END c_package;
     return vRes;
     end;
    
-   PROCEDURE delCustomer(c_id   customers.id%type) IS 
+   PROCEDURE delCustomer(c_id   customers%type) IS 
    BEGIN 
       DELETE FROM customers 
       WHERE id = c_id; 
