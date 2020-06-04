@@ -89,6 +89,16 @@ namespace OracleParser.Visitors
 
                 _Result.Objects.Add(type);
             }
+            else if (child is PlSqlParser.Cursor_declarationContext cursorContext)
+            {
+                var NameContext = cursorContext.GetChild(1);
+                var name = NameContext.GetText();
+                var type = new ParsedCursor(name);
+                type.SetPosition(cursorContext);
+                type.NameIdentifierPart.SetPosition(NameContext as ParserRuleContext);
+
+                _Result.Objects.Add(type);
+            }
         }
     }
 }

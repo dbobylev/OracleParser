@@ -16,5 +16,7 @@ namespace OracleParser.Model.PackageModel
         Variable                        = 1 << 1,
         [Description("Тип")]
         Type                            = 1 << 2,
+        [Description("Курсор")]
+        Cursor                          = 1 << 3,
     }
 }
