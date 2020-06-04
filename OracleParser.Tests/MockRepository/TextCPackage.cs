@@ -37,6 +37,8 @@ END c_package;
 
    PackageVariable number := 10;
 
+   type PackageType is table of number;
+
    PROCEDURE addCustomer(c_id  customers.id%type, 
       c_name customerS.No.ame%type, 
       c_age  customers.age%type, 

@@ -1,13 +1,12 @@
-﻿using OracleParser.src.Model;
+﻿using OracleParser.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using AntlrOraclePlsql;
 using System.Linq;
 using Antlr4.Runtime;
-using OracleParser.Model;
 
-namespace OracleParser.src.Visitors
+namespace OracleParser.Visitors
 {
     static class Helper
     {

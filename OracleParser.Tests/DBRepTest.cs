@@ -55,9 +55,9 @@ namespace OracleParser.Tests
                 + "row7\r\n";
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GetEmptyLineTest.tmp");
             File.WriteAllText(path, str);
-            var x = DBRep.Instance().GetEmptyLine(path, 7, 3);
+            var x = DBRep.Instance().GetEmptyLine(path, 7, 4);
             File.Delete(path);
-            Assert.AreEqual(6, x);
+            Assert.AreEqual(5, x);
         }
     }
 }

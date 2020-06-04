@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using OracleParser.Model.PackageModel;
-using OracleParser.src.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,7 @@ using System.Text;
 
 namespace OracleParser.Model
 {
+    [PackageElementType(ePackageElementType.Method)]
     public class ParsedMethod :PieceOfCode
     {
         [JsonProperty]

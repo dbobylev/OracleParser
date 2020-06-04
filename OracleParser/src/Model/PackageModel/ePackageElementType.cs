@@ -13,6 +13,8 @@ namespace OracleParser.Model.PackageModel
         [Description("Метод")]
         Method                          = 1 << 0,
         [Description("Переменная")]
-        Variable                        = 1 << 1
+        Variable                        = 1 << 1,
+        [Description("Тип")]
+        Type                            = 1 << 2,
     }
 }

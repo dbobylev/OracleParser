@@ -7,8 +7,7 @@ using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using AntlrOraclePlsql;
 using OracleParser.Model;
-using OracleParser.src.Model;
-using OracleParser.src.Visitors;
+using OracleParser.Visitors;
 
 namespace OracleParser.Visitors
 {
@@ -55,7 +54,7 @@ namespace OracleParser.Visitors
                 || child is PlSqlParser.Function_specContext)
             {
                 var procedure = _procedureVisitor.Visit(child).SetPositionExt(child);
-                _Result.AddProcedure(procedure);
+                _Result.Procedures.Add(procedure);
             }
             else if (child is PlSqlParser.Variable_declarationContext variableContext)
             {
@@ -66,7 +65,7 @@ namespace OracleParser.Visitors
                 {
                     var procedure = new ParsedMethod(pltype);
                     procedure.SetPosition(variableContext);
-                    _Result.AddProcedure(procedure);
+                    _Result.Procedures.Add(procedure);
                 }
                 else
                 {
@@ -77,8 +76,18 @@ namespace OracleParser.Visitors
                     codePosition.SetPosition(variableContext.GetChild(0) as ParserRuleContext);
                     variable.NameIdentifierPart = codePosition;
 
-                    _Result.AddVariable(variable);
+                    _Result.Variables.Add(variable);
                 }
+            }
+            else if (child is PlSqlParser.Type_declarationContext typeContext)
+            {
+                var NameContext = typeContext.GetChild(1);
+                var name = NameContext.GetText();
+                var type = new ParsedType(name);
+                type.SetPosition(typeContext);
+                type.NameIdentifierPart.SetPosition(NameContext as ParserRuleContext);
+
+                _Result.Objects.Add(type);
             }
         }
     }

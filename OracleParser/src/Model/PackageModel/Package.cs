@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace OracleParser.Model.PackageModel
@@ -48,7 +49,30 @@ namespace OracleParser.Model.PackageModel
             SetVariable(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
             SetVariable(body, ePackageElementDefinitionType.BodyFull, repositoryPackage.BodyRepFullPath);
 
+            SetObject(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
+            SetObject(body, ePackageElementDefinitionType.BodyFull, repositoryPackage.BodyRepFullPath);
+
             UpdateBeginLine(repositoryPackage);
+        }
+
+        private void SetObject(ParsedPackagePart part, ePackageElementDefinitionType positionType, string filepath)
+        {
+            var objs = part.Objects;
+            if (positionType == ePackageElementDefinitionType.Spec)
+                objs = objs.Where(x => x.GetType() != typeof(ParsedMethod)).ToList();
+
+            for (int i = 0; i < objs.Count; i++)
+            {
+                var obj = objs[i];
+
+                var nameIdentifierPart = obj.NameIdentifierPart;
+                var VariableName = DBRep.Instance().GetWordInFile(filepath, nameIdentifierPart.LineBeg, nameIdentifierPart.ColumnBeg, nameIdentifierPart.ColumnEnd);
+
+                var element = new PackageElement(VariableName, obj.GetType().GetCustomAttribute<PackageElementTypeAttribute>().ElementType);
+                element.AddPosition(positionType, obj.Position());
+
+                elements.Add(element);
+            }
         }
 
         private void SetVariable(ParsedPackagePart part, ePackageElementDefinitionType positionType, string filepath)

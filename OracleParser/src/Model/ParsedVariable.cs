@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
 using OracleParser.Model;
+using OracleParser.Model.PackageModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OracleParser.src.Model
+namespace OracleParser.Model
 {
+    [PackageElementType(ePackageElementType.Variable)]
     public class ParsedVariable : PieceOfCode
     {
         [JsonProperty]

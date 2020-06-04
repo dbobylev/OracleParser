@@ -17,7 +17,7 @@ namespace OracleParser.Tests.MockRepository
         [Test]
         public static void RunTest()
         {
-            var packagebody = OraParser.Instance().GetPackageBody(bodyPath);
+            var packagebody = OraParser.Instance().GetPackageBody(specPath);
 
             var json = JsonConvert.SerializeObject(packagebody, Formatting.Indented);
             Console.WriteLine(json);
@@ -28,7 +28,7 @@ namespace OracleParser.Tests.MockRepository
         [Test]
         public static void PrintSpec()
         {
-            var x = Analyzer.RunUpperCase(bodyPath);
+            var x = Analyzer.RunUpperCase(specPath);
 
             PrintRuleTree.PrintChilds(x);
 

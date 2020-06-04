@@ -6,12 +6,11 @@ using OracleParser.Model;
 using OracleParser.Visitors;
 using Antlr4.Runtime.Tree;
 using Antlr4.Runtime.Misc;
-using OracleParser.src.Model;
 using System.Linq;
 using OracleParser.Model.PackageModel;
 using Antlr4.Runtime;
 
-namespace OracleParser.src.Visitors
+namespace OracleParser.Visitors
 {
     class MethodVisitor:PlSqlParserBaseVisitor<ParsedMethod>
     {
