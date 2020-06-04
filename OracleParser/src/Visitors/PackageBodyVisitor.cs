@@ -76,7 +76,7 @@ namespace OracleParser.Visitors
                     codePosition.SetPosition(variableContext.GetChild(0) as ParserRuleContext);
                     variable.NameIdentifierPart = codePosition;
 
-                    _Result.Variables.Add(variable);
+                    _Result.Objects.Add(variable);
                 }
             }
             else if (child is PlSqlParser.Type_declarationContext typeContext)

@@ -46,8 +46,8 @@ namespace OracleParser.Model.PackageModel
                 elements.Add(element);
             }
 
-            SetVariable(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
-            SetVariable(body, ePackageElementDefinitionType.BodyFull, repositoryPackage.BodyRepFullPath);
+            //SetVariable(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
+            //SetVariable(body, ePackageElementDefinitionType.BodyFull, repositoryPackage.BodyRepFullPath);
 
             SetObject(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
             SetObject(body, ePackageElementDefinitionType.BodyFull, repositoryPackage.BodyRepFullPath);
@@ -70,6 +70,23 @@ namespace OracleParser.Model.PackageModel
 
                 var element = new PackageElement(VariableName, obj.GetType().GetCustomAttribute<PackageElementTypeAttribute>().ElementType);
                 element.AddPosition(positionType, obj.Position());
+
+                if (obj is ParsedMethod objMethod)
+                {
+                    // Фиксируем часть спецификации в теле
+                    element.AddPosition(ePackageElementDefinitionType.BodyDeclaration, objMethod.DeclarationPart);
+
+                    // Позиция названия метода
+                    element.AddPosition(ePackageElementDefinitionType.NameIdentifier, nameIdentifierPart);
+
+                    // Ищем определение метода в спецификации
+                    var specMethod = spec.Procedures.FirstOrDefault(x => x.Name == objMethod.Name);
+                    if (specMethod != null)
+                        element.AddPosition(ePackageElementDefinitionType.Spec, specMethod.Position());
+
+                    element.Parametres.AddRange(objMethod.Parameters);
+                    element.Links.AddRange(objMethod.Elements);
+                }
 
                 elements.Add(element);
             }

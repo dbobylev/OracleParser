@@ -8,18 +8,13 @@ using System.Text;
 namespace OracleParser.Model
 {
     [PackageElementType(ePackageElementType.Variable)]
-    public class ParsedVariable : PieceOfCode
+    public class ParsedVariable : ParsedObject
     {
         [JsonProperty]
-        public string Name { get; private set; }
-        [JsonProperty]
         public string plType { get; private set; }
-        [JsonProperty]
-        public PieceOfCode NameIdentifierPart { get; set;}
 
-        public ParsedVariable(string name, string pltype)
+        public ParsedVariable(string name, string pltype) :base(name)
         {
-            Name = name;
             plType = pltype;
         }
 

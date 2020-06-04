@@ -19,5 +19,10 @@ namespace OracleParser.Model
             Name = name;
             NameIdentifierPart = new PieceOfCode();
         }
+
+        public ParsedObject()
+        {
+            NameIdentifierPart = new PieceOfCode();
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Text;
 namespace OracleParser.Model
 {
     [PackageElementType(ePackageElementType.Method)]
-    public class ParsedMethod :PieceOfCode
+    public class ParsedMethod : ParsedObject
     {
         [JsonProperty]
         private List<ParsedParameter> _parameters;
@@ -18,21 +18,15 @@ namespace OracleParser.Model
         public string ReturnType { get; set; }
 
         [JsonProperty]
-        public string Name { get; private set; }
-        [JsonProperty]
         public PieceOfCode DeclarationPart { get; set; }
-        [JsonProperty]
-        public PieceOfCode NameIdentifierPart { get; set; }
-
 
         [JsonIgnore]
         public IReadOnlyCollection<ParsedParameter> Parameters { get => _parameters.AsReadOnly(); }
         [JsonIgnore]
         public IReadOnlyCollection<ParsedLink> Elements { get => _elements.AsReadOnly(); }
 
-        public ParsedMethod(string name)
+        public ParsedMethod(string name) :base(name)
         {
-            Name = name;
             _parameters = new List<ParsedParameter>();
             _elements = new List<ParsedLink>();
         }
