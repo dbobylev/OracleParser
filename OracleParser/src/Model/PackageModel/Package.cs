@@ -47,8 +47,29 @@ namespace OracleParser.Model.PackageModel
                     }
                     else if (positionType == ePackageElementDefinitionType.Spec)
                     {
-                        // Ищем уже добавленный метод. Добавляем позицию спецификации
-                        elements.First(x => x.Equals(objMethod)).AddPosition(ePackageElementDefinitionType.Spec, objMethod.Position());
+                        try
+                        {
+                            /* Метод в спецификации должен иметь пару в теле пакета.
+                             * Ищем уже добавленный метод в теле. Добавляем к нему позицию спецификации
+                             */
+                            elements.First(x => x.Equals(objMethod)).AddPosition(ePackageElementDefinitionType.Spec, objMethod.Position());
+                        }
+                        catch(InvalidOperationException ex)
+                        {
+                            // Sequence contains no matching element
+                            if (ex.HResult == -2146233079)
+                            {
+                                var ErrorMsg = $"В спецификации для метода {objMethod.Name} не найдена пара в теле пакета";
+                                Func<IEnumerable<ParsedParameter>, string> printParam = (x) => string.Join(", ", x.Select(x => $"{x.Name} {x.plType}"));
+                                Seri.Log.Error(ErrorMsg);
+                                Seri.Log.Error($"Метод в спецификации: {objMethod.Name}, параметры: {printParam(objMethod.Parameters)}");
+                                foreach (var item in elements.Where(x=>x.Name.ToUpper() == objMethod.Name.ToUpper()))
+                                    Seri.Log.Error($"Метод в теле: {item.Name}, параметры: {printParam(item.Parametres)}");
+                                throw new Exception(ErrorMsg);
+                            }
+                            else
+                                throw ex;
+                        }
                         continue;
                     }
                 }

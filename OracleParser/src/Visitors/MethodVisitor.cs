@@ -54,8 +54,13 @@ namespace OracleParser.Visitors
 
         public override ParsedMethod VisitParameter([NotNull] PlSqlParser.ParameterContext context)
         {
-            var parameter = _parameterVisitor.Visit(context).SetPositionExt(context);
-            _Result.AddParametr(parameter);
+            // Условие для того что бы параметры не подхватывались из вложенных методов
+            if (context.Parent.Parent is PlSqlParser.Package_obj_bodyContext ||
+                context.Parent.Parent is PlSqlParser.Package_obj_specContext)
+            {
+                var parameter = _parameterVisitor.Visit(context).SetPositionExt(context);
+                _Result.AddParametr(parameter);
+            }
             return base.VisitParameter(context);
         }
 

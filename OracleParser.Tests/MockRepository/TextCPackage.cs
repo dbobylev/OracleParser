@@ -17,6 +17,8 @@ namespace OracleParser.Tests.MockRepository
    cursor cur is select * from dual;
    vur2 sys_refcursor;
 
+  function test(a in number, b in number) return varchar2;
+
    -- Adds a customer 
    PROCEDURE addCustomer(c_id   customers%type, 
    c_name  customerS.No.ame%type, 
@@ -50,10 +52,15 @@ END c_package;
          VALUES(c_id, c_name, c_age, c_addr, c_sal); 
    END addCustomer; 
 
-   function test(a in number, b in number) return varchar2 is
-    begin
+  function test(a in number, b in number) return varchar2 is
+    function testInTest(c in number) return number
+      is 
+      begin
+        return 150;
+      end;
+  begin
     return '123';
-    end;
+  end;
 
    function SumOfTwo(a in number, 
                      b in number) 
