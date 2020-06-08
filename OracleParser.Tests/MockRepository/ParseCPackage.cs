@@ -1,4 +1,6 @@
 ﻿using AntlrOraclePlsql;
+using DataBaseRepository;
+using DataBaseRepository.Model;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
@@ -13,6 +15,14 @@ namespace OracleParser.Tests.MockRepository
     {
         const string bodyPath = "C:\\TestRep\\ALPHA\\alpha.c_package.bdy";
         const string specPath = "C:\\TestRep\\ALPHA\\alpha.c_package.spc";
+
+        [Test]
+        public static void OraParserGetPackageTest()
+        {
+            DBRep.Instance().RepositoryPath = "C:\\TestRep\\";
+            var x = OraParser.Instance().GetPackage(new RepositoryPackage("c_package", "alpha"), true);
+        }
+
 
         [Test]
         public static void RunTest()

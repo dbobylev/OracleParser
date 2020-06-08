@@ -17,7 +17,7 @@ namespace OracleParser.Tests.MockRepository
    cursor cur is select * from dual;
    vur2 sys_refcursor;
 
-  function test(a in number, b in number) return varchar2;
+   function test(a in number, b in number) return varchar2;
 
    -- Adds a customer 
    PROCEDURE addCustomer(c_id   customers%type, 

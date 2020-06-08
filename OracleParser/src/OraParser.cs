@@ -37,7 +37,7 @@ namespace OracleParser
             return packageBody;
         }
 
-        public Package GetPackage(RepositoryPackage repPackage)
+        public Package GetPackage(RepositoryPackage repPackage, bool ForseParse = false)
         {
             Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
             Package answer;
@@ -46,13 +46,15 @@ namespace OracleParser
             {
                 var visitor = new PackageBodyVisitor();
                 var tree = Analyzer.RunUpperCase(x);
+                if (tree.exception != null)
+                    throw tree.exception;
                 var packagePart = visitor.Visit(tree);
                 return packagePart;
             };
 
             PackageManager manager = new PackageManager();
 
-            if (manager.CheckPackage(repPackage, out Package savedParderPackage))
+            if (!ForseParse && manager.CheckPackage(repPackage, out Package savedParderPackage))
             {
                 Seri.Log.Debug("Пресохраненные данные найдены, возвращаем их");
                 answer = savedParderPackage;
