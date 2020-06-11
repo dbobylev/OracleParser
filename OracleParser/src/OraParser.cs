@@ -8,7 +8,7 @@ using DataBaseRepository.Model;
 using System;
 using DataBaseRepository;
 using System.IO;
-using OracleParser.src.Saver;
+using OracleParser.Saver;
 using OracleParser.Model.PackageModel;
 
 namespace OracleParser
@@ -42,16 +42,6 @@ namespace OracleParser
             Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
             Package answer;
 
-            Func<string, ParsedPackagePart> GetPart = (x) =>
-            {
-                var visitor = new PackageBodyVisitor();
-                var tree = Analyzer.RunUpperCase(x);
-                if (tree.exception != null)
-                    throw tree.exception;
-                var packagePart = visitor.Visit(tree);
-                return packagePart;
-            };
-
             PackageManager manager = new PackageManager();
 
             if (!ForseParse && manager.CheckPackage(repPackage, out Package savedParderPackage))
@@ -63,6 +53,16 @@ namespace OracleParser
             {
                 Seri.Log.Debug("Сохраненный данные не найдены");
                 Seri.Log.Information($"Запускаем парсинг объекта, repPackage={repPackage}");
+
+                Func<string, ParsedPackagePart> GetPart = (x) =>
+                {
+                    var visitor = new PackageBodyVisitor();
+                    var tree = Analyzer.RunUpperCase(x);
+                    if (tree.exception != null)
+                        throw tree.exception;
+                    var packagePart = visitor.Visit(tree);
+                    return packagePart;
+                };
 
                 var spec = GetPart(repPackage.SpecRepFullPath);
                 var body = GetPart(repPackage.BodyRepFullPath);

@@ -13,6 +13,8 @@ namespace OracleParser.Model.PackageModel
     {
         [JsonProperty]
         public List<PackageElement> elements { get; private set; }
+        [JsonProperty]
+        public string SHA { get; private set; }
 
         public Package(ParsedPackagePart spec, ParsedPackagePart body, RepositoryPackage repositoryPackage)
         {
@@ -22,6 +24,16 @@ namespace OracleParser.Model.PackageModel
             SetObject(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
 
             UpdateBeginLine(repositoryPackage);
+        }
+
+        public Package()
+        {
+
+        }
+
+        public void SetSha(string sha)
+        {
+            SHA = sha;
         }
 
         private void SetObject(ParsedPackagePart part, ePackageElementDefinitionType positionType, string filepath)
@@ -75,11 +87,6 @@ namespace OracleParser.Model.PackageModel
                 }
                 elements.Add(element);
             }
-        }
-
-        public Package()
-        {
-
         }
 
         /// <summary>

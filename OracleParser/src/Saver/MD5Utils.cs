@@ -5,7 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace OracleParser.src.Saver
+namespace OracleParser.Saver
 {
     public static class MD5Utils
     {

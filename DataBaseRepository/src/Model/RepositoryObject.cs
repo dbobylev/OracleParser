@@ -1,17 +1,23 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace DataBaseRepository.Model
 {
     public class RepositoryObject
     {
+        [JsonProperty]
         public string Owner { get; private set; }
+        [JsonProperty]
         public string Name { get; private set; }
+        [JsonProperty]
         public eRepositoryObjectType DbObjectType;
 
+        [JsonIgnore]
         public string RepFilePath 
         {
             get
@@ -22,6 +28,7 @@ namespace DataBaseRepository.Model
             }
         }
 
+        [JsonIgnore]
         public string ObjectName
         {
             get => $"{Owner}.{Name}";
@@ -33,6 +40,11 @@ namespace DataBaseRepository.Model
             Owner = owner.ToUpper();
             DbObjectType = dbObjectType;
         }
+
+        public RepositoryObject()
+        {
+
+        }   
 
         public RepositoryObject(string filePath)
         {

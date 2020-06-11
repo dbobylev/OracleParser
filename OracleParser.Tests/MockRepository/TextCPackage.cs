@@ -20,7 +20,7 @@ namespace OracleParser.Tests.MockRepository
    function test(a in number, b in number) return varchar2;
 
    -- Adds a customer 
-   PROCEDURE addCustomer(c_id   customers%type, 
+   PROCEDURE addCustomer(c_id customers%type, 
    c_name  customerS.No.ame%type, 
    c_age  customers.age%type, 
    c_addr customers.address%type,  

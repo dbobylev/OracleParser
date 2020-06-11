@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OracleParser.Model;
 using OracleParser.Model.PackageModel;
-using OracleParser.src.Saver;
+using OracleParser.Saver;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +13,7 @@ namespace OracleParser.Saver
         [JsonProperty]
         public Package _package { get; private set; }
 
-        public PackageResult(Package package, string name, string sha): base(name, sha)
+        public PackageResult(Package package, string name): base(name)
         {
             _package = package;
         }

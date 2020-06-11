@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace DataBaseRepository.Model
 {
@@ -18,21 +19,30 @@ namespace DataBaseRepository.Model
 
         }
 
+        public RepositoryPackage()
+        {
+
+        }
+
+        [JsonIgnore]
         public string BodyRepFilePath
         {
             get => Path.Combine(Owner, $"{Owner}.{Name}.{Helper.FileExtensions[eRepositoryObjectType.Package_Body]}");
         }
 
+        [JsonIgnore]
         public string SpecRepFilePath
         {
             get => Path.Combine(Owner, $"{Owner}.{Name}.{Helper.FileExtensions[eRepositoryObjectType.Package_Spec]}");
         }
 
+        [JsonIgnore]
         public string BodyRepFullPath
         {
             get => Path.Combine(DBRep.Instance().RepositoryPath, BodyRepFilePath);
         }
 
+        [JsonIgnore]
         public string SpecRepFullPath
         {
             get => Path.Combine(DBRep.Instance().RepositoryPath, SpecRepFilePath);

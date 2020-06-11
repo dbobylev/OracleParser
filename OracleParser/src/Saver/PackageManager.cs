@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using OracleParser.Model;
 using OracleParser.Model.PackageModel;
-using OracleParser.Saver;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
-namespace OracleParser.src.Saver
+namespace OracleParser.Saver
 {
     class PackageManager
     {
@@ -22,8 +21,8 @@ namespace OracleParser.src.Saver
             if (!Directory.Exists(SAVED_PATH))
                 Directory.CreateDirectory(SAVED_PATH);
 
-            var sha = MD5Utils.RepositoryPackageMD5(repPackage);
-            var packageResult = new PackageResult(package, repPackage.ObjectName, sha);
+            package.SetSha(MD5Utils.RepositoryPackageMD5(repPackage));
+            var packageResult = new PackageResult(package, repPackage.ObjectName);
             var json = JsonConvert.SerializeObject(packageResult);
 
             File.WriteAllText(GetSavedInstancePath(repPackage), json);
@@ -45,7 +44,7 @@ namespace OracleParser.src.Saver
                 string fileText = File.ReadAllText(SavedInstancePath);
                 var packageResult = JsonConvert.DeserializeObject<PackageResult>(fileText);
                 package = packageResult._package;
-                answer = packageResult.SHA == currentSha;
+                answer = package.SHA == currentSha;
             }
             Seri.Log.Verbose($"CheckParsedPackage answer:{answer}");
             return answer;
