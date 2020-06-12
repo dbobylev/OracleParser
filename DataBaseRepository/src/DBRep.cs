@@ -37,7 +37,7 @@ namespace DataBaseRepository
 
         public string GetTextOfFile(RepositoryObject file, int LineBeg, int LineEnd, int? LastPos = null)
         {
-            return GetTextOfFile(Path.Combine(RepositoryPath, file.RepFilePath), LineBeg, LineEnd, LastPos);
+            return GetTextOfFile(file.RepFullPath, LineBeg, LineEnd, LastPos);
         }
         public string GetTextOfFile(string filepath, int LineBeg, int LineEnd, int? LastPos = null)
         {
@@ -78,6 +78,14 @@ namespace DataBaseRepository
                     }
             }
             return answer;
+        }
+
+        public void SaveTextToFile(string text, RepositoryObject repositoryObject)
+        {
+            var ownerPath = Path.Combine(RepositoryPath, repositoryObject.Owner);
+            if (!Directory.Exists(ownerPath))
+                Directory.CreateDirectory(ownerPath);
+            File.WriteAllText(repositoryObject.RepFullPath, text);
         }
     }
 }

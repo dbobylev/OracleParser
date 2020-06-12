@@ -48,6 +48,16 @@ namespace DataBaseRepository.Model
             get => Path.Combine(DBRep.Instance().RepositoryPath, SpecRepFilePath);
         }
 
+        public RepositoryObject GetObjectBody()
+        {
+            return new RepositoryObject(Name, Owner, eRepositoryObjectType.Package_Body);
+        }
+
+        public RepositoryObject GetObjectSpec()
+        {
+            return new RepositoryObject(Name, Owner, eRepositoryObjectType.Package_Spec);
+        }
+
         public string RepFullPath(eRepositoryObjectType objectType)
         {
             switch (objectType)

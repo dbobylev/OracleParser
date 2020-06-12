@@ -29,6 +29,12 @@ namespace DataBaseRepository.Model
         }
 
         [JsonIgnore]
+        public string RepFullPath
+        {
+            get => Path.Combine(DBRep.Instance().RepositoryPath, RepFilePath);
+        }
+
+        [JsonIgnore]
         public string ObjectName
         {
             get => $"{Owner}.{Name}";
