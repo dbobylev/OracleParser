@@ -56,6 +56,7 @@ END c_package;
     function testInTest(c in number) return number
       is 
       begin
+        varib := '123';
         return 150;
       end;
   begin
