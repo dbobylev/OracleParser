@@ -58,7 +58,20 @@ namespace DataBaseRepository.Model
             return new RepositoryObject(Name, Owner, eRepositoryObjectType.Package_Spec);
         }
 
-        public string RepFullPath(eRepositoryObjectType objectType)
+        new public string RepFilePath(eRepositoryObjectType objectType)
+        {
+            switch (objectType)
+            {
+                case eRepositoryObjectType.Package_Spec:
+                    return SpecRepFilePath;
+                case eRepositoryObjectType.Package_Body:
+                    return BodyRepFilePath;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        new public string RepFullPath(eRepositoryObjectType objectType)
         {
             switch (objectType)
             {

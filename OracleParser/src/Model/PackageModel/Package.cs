@@ -15,15 +15,18 @@ namespace OracleParser.Model.PackageModel
         public List<PackageElement> elements { get; private set; }
         [JsonProperty]
         public string SHA { get; private set; }
+        [JsonProperty]
+        public RepositoryPackage repositoryPackage { get; set; }
 
         public Package(ParsedPackagePart spec, ParsedPackagePart body, RepositoryPackage repositoryPackage)
         {
             elements = new List<PackageElement>();
+            this.repositoryPackage = repositoryPackage;
 
             SetObject(body, ePackageElementDefinitionType.BodyFull, repositoryPackage.BodyRepFullPath);
             SetObject(spec, ePackageElementDefinitionType.Spec, repositoryPackage.SpecRepFullPath);
 
-            UpdateBeginLine(repositoryPackage);
+            UpdateBeginLine();
         }
 
         public Package()
@@ -93,7 +96,7 @@ namespace OracleParser.Model.PackageModel
         /// Переносим начало позиции участка кода что бы захыватить первичный комментарий
         /// </summary>
         /// <param name="repositoryPackage"></param>
-        private void UpdateBeginLine(RepositoryPackage repositoryPackage)
+        private void UpdateBeginLine()
         {
             Action<ePackageElementDefinitionType, string> run = (t, path) =>
             {
