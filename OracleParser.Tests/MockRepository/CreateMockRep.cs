@@ -16,6 +16,7 @@ namespace OracleParser.Tests.MockRepository
             Directory.CreateDirectory("C:\\TestRep\\BETA");
             File.WriteAllText("C:\\TestRep\\ALPHA\\ALPHA.c_package.spc", TextCPackage.Spec);
             File.WriteAllText("C:\\TestRep\\ALPHA\\ALPHA.c_package.bdy", TextCPackage.Body);
+            File.WriteAllText("C:\\TestRep\\ALPHA\\ALPHA.pcopy.bdy", TextPCopy.body);
 
             Assert.Pass();
         }

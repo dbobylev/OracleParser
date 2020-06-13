@@ -56,7 +56,8 @@ namespace OracleParser.Model.PackageModel
                     if (positionType == ePackageElementDefinitionType.BodyFull)
                     {
                         // Фиксируем часть спецификации в теле
-                        element.AddPosition(ePackageElementDefinitionType.BodyDeclaration, objMethod.DeclarationPart);
+                        if (objMethod.DeclarationPart != null)
+                            element.AddPosition(ePackageElementDefinitionType.BodyDeclaration, objMethod.DeclarationPart);
                         element.Parametres.AddRange(objMethod.Parameters);
                         element.Links.AddRange(objMethod.Elements);
                     }
