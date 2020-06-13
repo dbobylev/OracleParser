@@ -248,7 +248,7 @@ namespace OracleParser.Tests.MockRepository
   procedure tr_SaveTrigerList(ptbTriggerList tbTriggerList) is
     PRAGMA AUTONOMOUS_TRANSACTION;
   begin
-    forall i in 1 .. ptbTriggerList.count-- SAVE EXCEPTIONS
+    forall i in 1 .. ptbTriggerList.count SAVE EXCEPTIONS
       insert into triggerstatus
         (schemaname, tablename, triggername, status, dateoff)
       values 
@@ -260,10 +260,11 @@ namespace OracleParser.Tests.MockRepository
      commit;
   exception 
     when others then
-   /* FOR indx IN 1 .. SQL%BULK_EXCEPTIONS.COUNT
+    FOR indx IN 1 .. SQL%BULK_EXCEPTIONS.COUNT
     loop
       ais.msg('Error: Не удалось сохранить триггер ' || SQL%BULK_EXCEPTIONS(indx).ERROR_INDEX);
-    end loop;  */  raise;
+    end loop;  
+    raise;
   end;
   
   -- Загружаем отключенные тригеры из сохранненой таблицы
