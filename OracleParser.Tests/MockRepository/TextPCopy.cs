@@ -6,6 +6,36 @@ namespace OracleParser.Tests.MockRepository
 {
     class TextPCopy
     {
+        public const string spec = @"create or replace package pcopy is
+
+  cLogLevelTrace constant number := 1;
+  cLogLevelDebug constant number := 2;
+  cLogLevelInfo  constant number := 3;
+  cLogLevelWarn  constant number := 4;
+  cLogLevelError constant number := 5;
+
+  vLogLevel number := cLogLevelTrace;
+  vDbLink varchar2(30) := 'tester.world';
+  vSkipError boolean := false;
+
+  type TCopyArgs is record(
+    Isn             number,
+    TableName       varchar2(30),
+    OwnerName       varchar2(30) default 'AIS',
+    DoUpdate        boolean default false,
+    DoDelete        boolean default false, 
+    GroupName       varchar2(40) 
+  );
+  
+  procedure TriggersEnable(pTableName varchar2, pSchemaName varchar2 default 'AIS');
+  procedure TriggersDisable(pTableName varchar2, pSchemaName varchar2 default 'AIS');
+  
+  procedure CopyObj(pCopyArgs TCopyArgs);
+
+end pcopy;
+/
+";
+
         public const string body = @"create or replace package body pcopy is
   
   vProcessID number;
