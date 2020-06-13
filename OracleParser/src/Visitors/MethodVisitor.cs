@@ -70,6 +70,12 @@ namespace OracleParser.Visitors
             return base.VisitGeneral_element_part(context);
         }
 
+        public override ParsedMethod VisitType_name([NotNull] PlSqlParser.Type_nameContext context)
+        {
+            _Result.AddElement(Helper.ReadElement(context));
+            return base.VisitType_name(context);
+        }
+
         public override ParsedMethod VisitType_spec([NotNull] PlSqlParser.Type_specContext context)
         {
             _Result.ReturnType = context.GetText();
