@@ -28,6 +28,15 @@ namespace OracleParser.Visitors
             return element;
         }
 
+        public static ParsedLink ReadElement(PlSqlParser.Function_callContext context)
+        {
+            var item = context.children[0] as ParserRuleContext;
+            var elementName = item.GetText();
+            var element = new ParsedLink(elementName);
+            element.SetPosition(item);
+            return element;
+        }
+
         public static T SetPositionExt<T>(this T source, ParserRuleContext context) where T : PieceOfCode
         {
             source.SetPosition(context);
