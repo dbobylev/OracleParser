@@ -17,6 +17,7 @@ namespace OracleParser.Visitors
         {
             Seri.Log.Verbose($"Visit: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             _Result = new ParsedParameter(context.GetText());
+            _Result.NamePart.SetPosition(context);
             return base.VisitParameter_name(context);
         }
 

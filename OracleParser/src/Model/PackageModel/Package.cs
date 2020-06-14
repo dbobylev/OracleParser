@@ -58,7 +58,16 @@ namespace OracleParser.Model.PackageModel
                         // Фиксируем часть спецификации в теле
                         if (objMethod.DeclarationPart != null)
                             element.AddPosition(ePackageElementDefinitionType.BodyDeclaration, objMethod.DeclarationPart);
-                        element.Parametres.AddRange(objMethod.Parameters);
+
+                        // Определяем FriendlyName для параметров и фиксируем их
+                        var baseParamList = objMethod.Parameters.ToList();
+                        for (int j = 0; j < baseParamList.Count; j++)
+                        {
+                            var parameter = baseParamList[j];
+                            parameter.Name = DBRep.Instance().GetWordInFile(repositoryPackage.BodyRepFullPath, parameter.NamePart.LineBeg, parameter.NamePart.ColumnBeg, parameter.NamePart.ColumnEnd);
+                            element.Parametres.Add(parameter);
+                        }
+
                         element.Links.AddRange(objMethod.Elements);
                     }
                     else if (positionType == ePackageElementDefinitionType.Spec)
@@ -89,6 +98,7 @@ namespace OracleParser.Model.PackageModel
                         continue;
                     }
                 }
+
                 elements.Add(element);
             }
         }

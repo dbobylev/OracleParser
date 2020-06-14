@@ -8,13 +8,16 @@ namespace OracleParser.Model
     public class ParsedParameter :PieceOfCode
     {
         [JsonProperty]
-        public string Name { get; private set; }
+        public string Name { get; set; }
         [JsonProperty]
         public string plType { get; private set; }
+        [JsonProperty]
+        public PieceOfCode NamePart { get; set; }
 
         public ParsedParameter(string name)
         {
             Name = name;
+            NamePart = new PieceOfCode();
         }
 
         public ParsedParameter()
