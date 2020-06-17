@@ -10,11 +10,14 @@ using DataBaseRepository;
 using System.IO;
 using OracleParser.Saver;
 using OracleParser.Model.PackageModel;
+using System.Threading.Tasks;
 
 namespace OracleParser
 {
     public class OraParser
     {
+        public event Action<eRepositoryObjectType> ObjectWasParsed;
+
         private static OraParser _instance;
         public static OraParser Instance()
         {
@@ -37,7 +40,7 @@ namespace OracleParser
             return packageBody;
         }
 
-        public Package GetPackage(RepositoryPackage repPackage, bool ForseParse = false)
+        public async Task<Package> GetPackage(RepositoryPackage repPackage, bool ForseParse = false)
         {
             Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
             Package answer;
@@ -54,24 +57,30 @@ namespace OracleParser
                 Seri.Log.Debug("Сохраненный данные не найдены");
                 Seri.Log.Information($"Запускаем парсинг объекта, repPackage={repPackage}");
 
-                Func<string, ParsedPackagePart> GetPart = (x) =>
-                {
-                    var visitor = new PackageBodyVisitor();
-                    var tree = Analyzer.RunUpperCase(x);
-                    if (tree.exception != null)
-                        throw tree.exception;
-                    var packagePart = visitor.Visit(tree);
-                    return packagePart;
-                };
-
-                var spec = GetPart(repPackage.SpecRepFullPath);
-                var body = GetPart(repPackage.BodyRepFullPath);
+                var spec = await GetPart(repPackage.SpecRepFullPath);
+                ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Spec);
+                var body = await GetPart(repPackage.BodyRepFullPath);
+                ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Body);
 
                 answer = new Package(spec, body, repPackage);
                 manager.SaveParsedPackage(repPackage, answer);
             }
 
+            ObjectWasParsed = null;
             return answer;
+        }
+
+        private async Task<ParsedPackagePart> GetPart(string path)
+        {
+           return await Task.Run(() =>
+           {
+               var visitor = new PackageBodyVisitor();
+               var tree = Analyzer.RunUpperCase(path);
+               if (tree.exception != null)
+                   throw tree.exception;
+               var packagePart = visitor.Visit(tree);
+               return packagePart;
+           });
         }
     }
 }
