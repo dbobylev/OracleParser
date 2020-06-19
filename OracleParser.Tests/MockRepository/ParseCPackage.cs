@@ -20,7 +20,7 @@ namespace OracleParser.Tests.MockRepository
         public static void OraParserGetPackageTest()
         {
             DBRep.Instance().RepositoryPath = "C:\\TestRep\\";
-            var x = OraParser.Instance().GetPackage(new RepositoryPackage("c_package", "alpha"), true);
+            var x = OraParser.Instance().GetSavedPackage(new RepositoryPackage("c_package", "alpha"));
         }
 
 

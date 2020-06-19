@@ -29,7 +29,7 @@ namespace OracleParser.Tests
             DBRep.Instance().RepositoryPath = "C:\\TestRep";
             RepositoryPackage rep = new RepositoryPackage("c_package", "alpha");
 
-            var z = oracleParser.GetPackage(rep);
+            var z = oracleParser.GetSavedPackage(rep);
         }
     }
 }

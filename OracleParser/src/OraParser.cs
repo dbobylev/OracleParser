@@ -40,31 +40,39 @@ namespace OracleParser
             return packageBody;
         }
 
-        public async Task<Package> GetPackage(RepositoryPackage repPackage, bool ForseParse = false)
+        public Package GetSavedPackage(RepositoryPackage repPackage)
         {
-            Seri.Log.Debug($"Начинаем GetPackage, repPackage={repPackage}");
-            Package answer;
+            Seri.Log.Debug($"Начинаем GetSavedPackage, repPackage={repPackage}");
+            Package answer = null;
 
-            PackageManager manager = new PackageManager();
+            var manager = new PackageManager();
 
-            if (!ForseParse && manager.CheckPackage(repPackage, out Package savedParderPackage))
+            if (manager.CheckPackage(repPackage, out Package savedParderPackage))
             {
                 Seri.Log.Debug("Пресохраненные данные найдены, возвращаем их");
                 answer = savedParderPackage;
             }
-            else
-            {
-                Seri.Log.Debug("Сохраненный данные не найдены");
-                Seri.Log.Information($"Запускаем парсинг объекта, repPackage={repPackage}");
 
-                var spec = await GetPart(repPackage.SpecRepFullPath);
-                ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Spec);
-                var body = await GetPart(repPackage.BodyRepFullPath);
-                ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Body);
+            return answer;
+        }
 
-                answer = new Package(spec, body, repPackage);
-                manager.SaveParsedPackage(repPackage, answer);
-            }
+        public async Task<Package> GetPackage(RepositoryPackage repositoryPackage)
+        {
+            return GetSavedPackage(repositoryPackage) ?? await GetParsePackage(repositoryPackage);
+        }
+
+        public async Task<Package> GetParsePackage(RepositoryPackage repositoryPackage)
+        {
+            Seri.Log.Information($"Запускаем парсинг объекта, repPackage={repositoryPackage}");
+
+            var spec = await GetPart(repositoryPackage.SpecRepFullPath);
+            ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Spec);
+            var body = await GetPart(repositoryPackage.BodyRepFullPath);
+            ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Body);
+
+            var answer = new Package(spec, body, repositoryPackage);
+            var manager = new PackageManager();
+            //manager.SaveParsedPackage(repositoryPackage, answer);
 
             ObjectWasParsed = null;
             return answer;
