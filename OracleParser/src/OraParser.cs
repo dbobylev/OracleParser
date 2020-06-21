@@ -72,7 +72,7 @@ namespace OracleParser
 
             var answer = new Package(spec, body, repositoryPackage);
             var manager = new PackageManager();
-            //manager.SaveParsedPackage(repositoryPackage, answer);
+            manager.SaveParsedPackage(repositoryPackage, answer);
 
             ObjectWasParsed = null;
             return answer;
