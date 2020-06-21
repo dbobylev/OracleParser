@@ -56,18 +56,18 @@ namespace OracleParser
             return answer;
         }
 
-        public async Task<Package> GetPackage(RepositoryPackage repositoryPackage)
+        public async Task<Package> GetPackage(RepositoryPackage repositoryPackage, bool allowNationalChars)
         {
-            return GetSavedPackage(repositoryPackage) ?? await GetParsePackage(repositoryPackage);
+            return GetSavedPackage(repositoryPackage) ?? await GetParsePackage(repositoryPackage, allowNationalChars);
         }
 
-        public async Task<Package> GetParsePackage(RepositoryPackage repositoryPackage)
+        public async Task<Package> GetParsePackage(RepositoryPackage repositoryPackage, bool allowNationalChars)
         {
             Seri.Log.Information($"Запускаем парсинг объекта, repPackage={repositoryPackage}");
 
-            var spec = await GetPart(repositoryPackage.SpecRepFullPath);
+            var spec = await GetPart(repositoryPackage.SpecRepFullPath, allowNationalChars);
             ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Spec);
-            var body = await GetPart(repositoryPackage.BodyRepFullPath);
+            var body = await GetPart(repositoryPackage.BodyRepFullPath, allowNationalChars);
             ObjectWasParsed?.Invoke(eRepositoryObjectType.Package_Body);
 
             var answer = new Package(spec, body, repositoryPackage);
@@ -78,12 +78,12 @@ namespace OracleParser
             return answer;
         }
 
-        private async Task<ParsedPackagePart> GetPart(string path)
+        private async Task<ParsedPackagePart> GetPart(string path, bool allowNationalChars)
         {
            return await Task.Run(() =>
            {
                var visitor = new PackageBodyVisitor();
-               var tree = Analyzer.RunUpperCase(path);
+               var tree = Analyzer.RunUpperCase(path, allowNationalChars);
                if (tree.exception != null)
                    throw tree.exception;
                var packagePart = visitor.Visit(tree);
