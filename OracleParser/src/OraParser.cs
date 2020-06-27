@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OracleParser
 {
-    public class OraParser
+    public class OraParser :IOraParser
     {
         public event Action<eRepositoryObjectType> ObjectWasParsed;
 
@@ -40,14 +40,14 @@ namespace OracleParser
             return packageBody;
         }
 
-        public Package GetSavedPackage(RepositoryPackage repPackage)
+        public Package GetSavedPackage(RepositoryPackage repositoryPackage)
         {
-            Seri.Log.Debug($"Начинаем GetSavedPackage, repPackage={repPackage}");
+            Seri.Log.Debug($"Начинаем GetSavedPackage, repPackage={repositoryPackage}");
             Package answer = null;
 
             var manager = new PackageManager();
 
-            if (manager.CheckPackage(repPackage, out Package savedParderPackage))
+            if (manager.CheckPackage(repositoryPackage, out Package savedParderPackage))
             {
                 Seri.Log.Debug("Пресохраненные данные найдены, возвращаем их");
                 answer = savedParderPackage;
@@ -58,10 +58,10 @@ namespace OracleParser
 
         public async Task<Package> GetPackage(RepositoryPackage repositoryPackage, bool allowNationalChars)
         {
-            return GetSavedPackage(repositoryPackage) ?? await GetParsePackage(repositoryPackage, allowNationalChars);
+            return GetSavedPackage(repositoryPackage) ?? await ParsePackage(repositoryPackage, allowNationalChars);
         }
 
-        public async Task<Package> GetParsePackage(RepositoryPackage repositoryPackage, bool allowNationalChars)
+        public async Task<Package> ParsePackage(RepositoryPackage repositoryPackage, bool allowNationalChars)
         {
             Seri.Log.Information($"Запускаем парсинг объекта, repPackage={repositoryPackage}");
 
