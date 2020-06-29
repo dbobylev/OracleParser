@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OracleParser.Model.PackageModel
 {
-    public class PackageElement : IEquatable<ParsedMethod>
+    public class PackageElement : IEquatable<ParsedProcedure>
     {
         [JsonProperty]
         public string Name { get; private set; }
@@ -44,7 +44,7 @@ namespace OracleParser.Model.PackageModel
             Position.Add(packageElementDefinitionType, posCode);
         }
 
-        public bool Equals([AllowNull] ParsedMethod other)
+        public bool Equals([AllowNull] ParsedProcedure other)
         {
             bool ans = Name.ToUpper() == other.Name.ToUpper();
 

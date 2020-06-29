@@ -10,7 +10,7 @@ namespace OracleParser.Model
     public class ParsedPackagePart
     {
         [JsonProperty]
-        public List<ParsedMethod> Procedures;
+        public List<ParsedProcedure> Procedures;
         [JsonProperty]
         public List<ParsedVariable> Variables;
         [JsonProperty]
@@ -18,7 +18,7 @@ namespace OracleParser.Model
 
         public ParsedPackagePart()
         {
-            Procedures = new List<ParsedMethod>();
+            Procedures = new List<ParsedProcedure>();
             Variables = new List<ParsedVariable>();
             Objects = new List<ParsedObject>();
         }

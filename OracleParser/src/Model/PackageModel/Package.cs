@@ -51,7 +51,7 @@ namespace OracleParser.Model.PackageModel
                 var element = new PackageElement(ObjName, obj.GetType().GetCustomAttribute<PackageElementTypeAttribute>().ElementType);
                 element.AddPosition(positionType, obj.Position());
 
-                if (obj is ParsedMethod objMethod)
+                if (obj is ParsedProcedure objMethod)
                 {
                     if (positionType == ePackageElementDefinitionType.BodyFull)
                     {

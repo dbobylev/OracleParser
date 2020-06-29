@@ -12,23 +12,26 @@ using Antlr4.Runtime;
 
 namespace OracleParser.Visitors
 {
-    class MethodVisitor:PlSqlParserBaseVisitor<ParsedMethod>
+    class MethodVisitor:PlSqlParserBaseVisitor<ParsedProcedure>
     {
         private ParameterVisitor _parameterVisitor = new ParameterVisitor();
-        protected ParsedMethod _Result;
+        protected ParsedProcedure _Result;
 
-        protected override ParsedMethod DefaultResult => _Result;
+        protected override ParsedProcedure DefaultResult => _Result;
 
-        public override ParsedMethod Visit(IParseTree tree)
+        public override ParsedProcedure Visit(IParseTree tree)
         {
-            // Что бы узнать процедура или функция
-            // var methodTypeName = (tree.GetChild(0) as TerminalNodeImpl).Symbol.Text;
+            var methodTypeName = (tree.GetChild(0) as TerminalNodeImpl).Symbol.Text;
 
             var identifierContext = tree.GetChild(1);
             if (!(identifierContext is PlSqlParser.IdentifierContext))
                 throw new NotImplementedException("Ожидалось имя процедуры");
-            _Result = new ParsedMethod(identifierContext.GetText());
-            
+
+            if (methodTypeName == "PROCEDURE")
+                _Result = new ParsedProcedure(identifierContext.GetText());
+            else
+                _Result = new ParsedFunction(identifierContext.GetText());
+
             var codePosition = new PieceOfCode();
             codePosition.SetPosition(identifierContext as ParserRuleContext);
             _Result.NameIdentifierPart = codePosition;
@@ -52,7 +55,7 @@ namespace OracleParser.Visitors
             return base.Visit(tree);
         }
 
-        public override ParsedMethod VisitParameter([NotNull] PlSqlParser.ParameterContext context)
+        public override ParsedProcedure VisitParameter([NotNull] PlSqlParser.ParameterContext context)
         {
             // Условие для того что бы параметры не подхватывались из вложенных методов
             if (context.Parent.Parent is PlSqlParser.Package_obj_bodyContext ||
@@ -64,28 +67,22 @@ namespace OracleParser.Visitors
             return base.VisitParameter(context);
         }
 
-        public override ParsedMethod VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
+        public override ParsedProcedure VisitGeneral_element_part([NotNull] PlSqlParser.General_element_partContext context)
         {
             _Result.AddElement(Helper.ReadElement(context));
             return base.VisitGeneral_element_part(context);
         }
 
-        public override ParsedMethod VisitType_name([NotNull] PlSqlParser.Type_nameContext context)
+        public override ParsedProcedure VisitType_name([NotNull] PlSqlParser.Type_nameContext context)
         {
             _Result.AddElement(Helper.ReadElement(context));
             return base.VisitType_name(context);
         }
 
-        public override ParsedMethod VisitFunction_call([NotNull] PlSqlParser.Function_callContext context)
+        public override ParsedProcedure VisitFunction_call([NotNull] PlSqlParser.Function_callContext context)
         {
             _Result.AddElement(Helper.ReadElement(context));
             return base.VisitFunction_call(context);
-        }
-
-        public override ParsedMethod VisitType_spec([NotNull] PlSqlParser.Type_specContext context)
-        {
-            _Result.ReturnType = context.GetText();
-            return base.VisitType_spec(context);
         }
     }
 }

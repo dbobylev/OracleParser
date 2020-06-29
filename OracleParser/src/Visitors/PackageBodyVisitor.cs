@@ -63,7 +63,7 @@ namespace OracleParser.Visitors
 
                 if (name == "PROCEDURE")
                 {
-                    var procedure = new ParsedMethod(pltype);
+                    var procedure = new ParsedProcedure(pltype);
                     procedure.SetPosition(variableContext);
                     _Result.Objects.Add(procedure);
                 }
