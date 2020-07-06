@@ -109,11 +109,11 @@ namespace OracleParser.Model.PackageModel
         /// <param name="repositoryPackage"></param>
         private void UpdateBeginLine()
         {
-            Action<ePackageElementDefinitionType, string> run = (t, path) =>
+            Action<ePackageElementDefinitionType, string> run = (definitionType, path) =>
             {
-                var z = elements.Where(x => x.Position.Keys.Contains(t));
-                var q = (new int[] { 1 })
-                    .Concat(z.Select(x => x.Position[t])
+                var ElementsInPart = elements.Where(x => x.Position.Keys.Contains(definitionType)).ToList();
+                var q = (new int[] { 2 })
+                    .Concat(ElementsInPart.Select(x => x.Position[definitionType])
                              .SelectMany(x => new int[] { x.LineBeg, x.LineEnd })
                              .OrderBy(x => x)
                              .ToArray())
@@ -123,14 +123,14 @@ namespace OracleParser.Model.PackageModel
                 for (int i = 1; i < q.Count(); i += 2)
                     NewLine.Add(q[i], DBRep.Instance().GetEmptyLine(path, q[i], q[i - 1]));
 
-                Seri.Log.Verbose(t.ToString() + ": " + string.Join(",", NewLine.Select(x => $"({x.Key} - {x.Value})")));
+                Seri.Log.Verbose(definitionType.ToString() + ": " + string.Join(",", NewLine.Select(x => $"({x.Key} - {x.Value})")));
 
-                foreach (var item in z)
+                foreach (var item in ElementsInPart)
                 {
-                    var x = item.Position[t];
+                    var x = item.Position[definitionType];
                     var NewLineBeg = NewLine[x.LineBeg];
                     x.UpdateLiuneBeg(NewLineBeg);
-                    if (t == ePackageElementDefinitionType.BodyFull && item.Position.Keys.Contains(ePackageElementDefinitionType.BodyDeclaration))
+                    if (definitionType == ePackageElementDefinitionType.BodyFull && item.Position.Keys.Contains(ePackageElementDefinitionType.BodyDeclaration))
                         item.Position[ePackageElementDefinitionType.BodyDeclaration].UpdateLiuneBeg(NewLineBeg);
                 }
             };

@@ -21,7 +21,7 @@ namespace DataBaseRepository
             return _instance;
         }
 
-        public string RepositoryPath { get; set; }
+        public string RepositoryPath { get; set; } = AppDomain.CurrentDomain.BaseDirectory;
 
         private DBRep()
         { 

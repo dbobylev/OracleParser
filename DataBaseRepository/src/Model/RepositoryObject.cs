@@ -18,7 +18,7 @@ namespace DataBaseRepository.Model
         public eRepositoryObjectType DbObjectType;
 
         [JsonIgnore]
-        public string RepFilePath 
+        public string RepFilePath
         {
             get
             {
@@ -32,6 +32,12 @@ namespace DataBaseRepository.Model
         public string RepFullPath
         {
             get => Path.Combine(DBRep.Instance().RepositoryPath, RepFilePath);
+        }
+
+        [JsonIgnore]
+        public string OwnerFullPath
+        {
+            get => Path.Combine(DBRep.Instance().RepositoryPath, Owner);
         }
 
         [JsonIgnore]
